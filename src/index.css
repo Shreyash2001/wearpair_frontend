@@ -5,6 +5,16 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: "Rubik", serif;
+}
+
+h1, h2, h3, h4, h5, p {
+  margin: 0;
+  /* Removes extra margin */
+  padding: 0;
+  /* Optional: Removes padding if any */
+  color: white;
+  /* Sets text color to white */
 }
 
 code {
