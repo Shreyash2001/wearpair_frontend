@@ -13,9 +13,10 @@
     position: relative;
     overflow: hidden;
     margin: 20px 0px;
+    animation: spin 2.5s infinite linear;
 }
 
-/* Upload label styling */
+
 .upload-label {
     color: #fff;
     text-align: center;
@@ -29,25 +30,22 @@
     text-decoration: underline;
 }
 
-/* Keyframe animation for text */
-@keyframes pulse {
-    0% {
-        opacity: 0.9;
-    }
-
-    50% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0.9;
-    }
-}
-
 /* Image preview styling */
 .image-preview {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 20px;
+}
+
+.analysing_preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+    background-color: #131212a4;
+    position: absolute;
 }

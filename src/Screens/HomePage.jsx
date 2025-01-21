@@ -4,12 +4,21 @@ import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import PauseCircleIcon from "@mui/icons-material/PauseCircle";
 import CameraCapture from "../Components/CameraCapture";
 import ImageUploadBox from "../Components/ImageUploadBox";
+import { Button } from "@mui/material";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
 
 function HomePage() {
   const videoRef = useRef(null);
   const timeoutRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [showControls, setShowControls] = useState(true);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [response, setResponse] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const togglePlayPause = () => {
     if (isPlaying) {
       videoRef.current.pause();
@@ -26,6 +35,18 @@ function HomePage() {
     }
     // Set a new timeout to hide controls
     timeoutRef.current = setTimeout(() => setShowControls(false), 3000);
+  };
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 300,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
   };
 
   useEffect(() => {
@@ -64,6 +85,78 @@ function HomePage() {
     );
   };
 
+  const handleMatchNowClick = async () => {
+    setLoading(true);
+    if (selectedImage) {
+      const data = new FormData();
+      const blob = await fetch(selectedImage).then((res) => res.blob());
+      data.append("file", blob);
+      data.append("upload_preset", "insta_clone");
+      data.append("cloud_name", "cqn");
+      fetch("https://api.cloudinary.com/v1_1/cqn/image/upload", {
+        method: "POST",
+        body: data,
+      })
+        .then((res) => res.json())
+        .then(async (uploadedData) => {
+          console.log("Uploaded Image URL:", uploadedData.url);
+          try {
+            const backendRes = await fetch(
+              "https://wearpair-backend.vercel.app/api/image-details/generate",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ url: uploadedData.url }),
+              }
+            );
+
+            const backendData = await backendRes.json();
+            setResponse(backendData);
+            handleOpen();
+            setLoading(false);
+            alert("Image uploaded successfully!");
+          } catch (error) {
+            alert(error);
+          }
+        })
+        .catch((err) => {
+          console.error("Upload error:", err);
+          alert("Failed to upload image.");
+        });
+    }
+  };
+
+  const imageBoxDetails = () => {
+    return (
+      <div className="imageBoxDetails_main_container">
+        <h1 style={{ textAlign: "center", fontSize: "36px" }}>
+          Find <span className="gradient-text"> Matching Pair Now</span>
+        </h1>
+        <ImageUploadBox setSelectedImage={setSelectedImage} loading={loading} />
+        <div style={{ width: "100%" }}>
+          {selectedImage && (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                marginTop: "20px 0px",
+                width: "100%",
+              }}
+            >
+              <Button onClick={handleMatchNowClick} className="matchnow_button">
+                Match Now
+              </Button>
+              <Button className="matchnow_cancel_button">Cancel</Button>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   const topDetails = () => {
     return (
       <div className="topDetails_main_container">
@@ -78,7 +171,21 @@ function HomePage() {
           </p>
         </div>
         {videoComponent()}
-        <ImageUploadBox />
+        {imageBoxDetails()}
+        {response && (
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <p style={{ color: "#222" }}>
+                {JSON.stringify(response, null, 2)}
+              </p>
+            </Box>
+          </Modal>
+        )}
         <CameraCapture />
       </div>
     );

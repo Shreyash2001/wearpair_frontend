@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./ImageUploadBox.css";
 import CollectionsIcon from "@mui/icons-material/Collections";
 
-const ImageUploadBox = () => {
+const ImageUploadBox = ({ setSelectedImage, loading }) => {
   const [imagePreview, setImagePreview] = useState(null);
 
   const handleDrop = (event) => {
@@ -20,7 +20,10 @@ const ImageUploadBox = () => {
   const handleFile = (file) => {
     if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
-      reader.onload = () => setImagePreview(reader.result);
+      reader.onload = () => {
+        setImagePreview(reader.result);
+        setSelectedImage(reader.result);
+      };
       reader.readAsDataURL(file);
     } else {
       alert("Please select a valid image file.");
@@ -69,6 +72,11 @@ const ImageUploadBox = () => {
         onChange={handleFileSelect}
         style={{ display: "none" }}
       />
+      {loading && (
+        <div className="analysing_preview">
+          <p>Analysing...</p>
+        </div>
+      )}
     </div>
   );
 };
