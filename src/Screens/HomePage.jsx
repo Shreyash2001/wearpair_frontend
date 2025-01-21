@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./HomePage.css";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import PauseCircleIcon from "@mui/icons-material/PauseCircle";
+import CameraCapture from "../Components/CameraCapture";
 
 function HomePage() {
   const videoRef = useRef(null);
@@ -75,6 +76,7 @@ function HomePage() {
           </p>
         </div>
         {videoComponent()}
+        <CameraCapture />
       </div>
     );
   };

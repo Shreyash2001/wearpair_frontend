@@ -1,7 +1,8 @@
 .app {
   height: 100vh;
-  width: 100vw;
+  /* width: 100vw; */
   background-color: black;
   background-image: radial-gradient(rgba(240, 240, 240, 0.164) 0.4px, transparent 0.8px);
   background-size: 20px 20px;
+  overflow-y: scroll;
 }
