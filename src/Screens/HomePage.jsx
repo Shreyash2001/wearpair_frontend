@@ -3,6 +3,7 @@ import "./HomePage.css";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import PauseCircleIcon from "@mui/icons-material/PauseCircle";
 import CameraCapture from "../Components/CameraCapture";
+import ImageUploadBox from "../Components/ImageUploadBox";
 
 function HomePage() {
   const videoRef = useRef(null);
@@ -62,6 +63,7 @@ function HomePage() {
       </div>
     );
   };
+
   const topDetails = () => {
     return (
       <div className="topDetails_main_container">
@@ -76,6 +78,7 @@ function HomePage() {
           </p>
         </div>
         {videoComponent()}
+        <ImageUploadBox />
         <CameraCapture />
       </div>
     );
