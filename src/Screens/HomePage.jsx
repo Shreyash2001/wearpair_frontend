@@ -16,6 +16,7 @@ function HomePage() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [response, setResponse] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [reset, setReset] = useState(false);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -128,13 +129,28 @@ function HomePage() {
     }
   };
 
+  const handleCancelClick = () => {
+    setSelectedImage(null);
+    setReset(true);
+  };
+
+  useEffect(() => {
+    if (selectedImage) {
+      setReset(false);
+    }
+  }, [selectedImage]);
+
   const imageBoxDetails = () => {
     return (
       <div className="imageBoxDetails_main_container">
         <h1 style={{ textAlign: "center", fontSize: "36px" }}>
           Find <span className="gradient-text"> Matching Pair Now</span>
         </h1>
-        <ImageUploadBox setSelectedImage={setSelectedImage} loading={loading} />
+        <ImageUploadBox
+          setSelectedImage={setSelectedImage}
+          loading={loading}
+          onReset={reset}
+        />
         <div style={{ width: "100%" }}>
           {selectedImage && (
             <div
@@ -149,7 +165,12 @@ function HomePage() {
               <Button onClick={handleMatchNowClick} className="matchnow_button">
                 Match Now
               </Button>
-              <Button className="matchnow_cancel_button">Cancel</Button>
+              <Button
+                onClick={handleCancelClick}
+                className="matchnow_cancel_button"
+              >
+                Cancel
+              </Button>
             </div>
           )}
         </div>

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ImageUploadBox.css";
 import CollectionsIcon from "@mui/icons-material/Collections";
 
-const ImageUploadBox = ({ setSelectedImage, loading }) => {
+const ImageUploadBox = ({ setSelectedImage, loading, onReset }) => {
+  // console.log(onReset);
   const [imagePreview, setImagePreview] = useState(null);
 
   const handleDrop = (event) => {
@@ -36,8 +37,16 @@ const ImageUploadBox = ({ setSelectedImage, loading }) => {
   };
 
   const handleBoxClick = () => {
-    document.getElementById("fileInput").click();
+    const fileInput = document.getElementById("fileInput");
+    fileInput.value = null;
+    fileInput.click();
   };
+
+  useEffect(() => {
+    if (onReset) {
+      setImagePreview(null);
+    }
+  }, [onReset]);
 
   return (
     <div
