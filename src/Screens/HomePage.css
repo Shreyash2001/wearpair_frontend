@@ -69,14 +69,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 30px;
     text-align: center;
-    margin: 20px 0px;
 }
 
 .matchnow_button {
     background: linear-gradient(45deg, #ff7eb3, #ff758c, #ff6a57, #ff8e57) !important;
-    padding: 10px 20px;
+    padding: 10px 20px !important;
     border-radius: 8px !important;
     margin: 20px 0px;
     border: none;
@@ -92,9 +90,55 @@
 .matchnow_cancel_button {
     background: transparent !important;
     border: 1px solid #424141 !important;
-    padding: 10px 20px;
+    padding: 10px 20px !important;
     border-radius: 8px !important;
     margin: 20px 0px !important;
+    font-size: 18px !important;
+    font-weight: 400 !important;
+    cursor: pointer !important;
+    color: #fff !important;
+    text-transform: inherit !important;
+    height: 50px !important;
+    width: 100% !important;
+}
+
+.or_line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 20px;
+}
+
+.or_line>hr {
+    width: 100%;
+    border: 1px solid #2b2a2a;
+}
+
+.or_line>p {
+    margin: 0px 10px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.capturenow_button {
+    background: linear-gradient(45deg, #ff7eb3, #ff758c, #ff6a57, #ff8e57) !important;
+    padding: 10px 20px !important;
+    border-radius: 8px !important;
+    border: none;
+    font-size: 18px !important;
+    font-weight: 400 !important;
+    cursor: pointer !important;
+    color: #fff !important;
+    text-transform: inherit !important;
+    height: 50px !important;
+    width: 100% !important;
+}
+
+.capturenow_button_disabled {
+    background: gray !important;
+    padding: 10px 20px !important;
+    border-radius: 8px !important;
+    border: none;
     font-size: 18px !important;
     font-weight: 400 !important;
     cursor: pointer !important;

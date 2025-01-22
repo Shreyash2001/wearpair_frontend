@@ -143,7 +143,13 @@ function HomePage() {
   const imageBoxDetails = () => {
     return (
       <div className="imageBoxDetails_main_container">
-        <h1 style={{ textAlign: "center", fontSize: "36px" }}>
+        <h1
+          style={{
+            textAlign: "center",
+            fontSize: "36px",
+            marginBottom: "20px",
+          }}
+        >
           Find <span className="gradient-text"> Matching Pair Now</span>
         </h1>
         <ImageUploadBox
@@ -158,8 +164,7 @@ function HomePage() {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
-                marginTop: "20px 0px",
-                width: "100%",
+                margin: "10px 20px",
               }}
             >
               <Button onClick={handleMatchNowClick} className="matchnow_button">
@@ -178,6 +183,40 @@ function HomePage() {
     );
   };
 
+  const getOrLine = () => {
+    return (
+      <div style={{ width: "100%" }}>
+        <div className="or_line">
+          <hr />
+          <p>Or</p>
+          <hr />
+        </div>
+      </div>
+    );
+  };
+
+  const getCaptureNowButton = () => {
+    return (
+      <div style={{ padding: "15px 20px" }}>
+        {selectedImage !== null && (
+          <p style={{ color: "#fff", fontSize: "12px", margin: "5px 0px" }}>
+            *Click cancel above to Enable Capture
+          </p>
+        )}
+        <Button
+          disabled={selectedImage !== null ? true : false}
+          className={`${
+            selectedImage !== null
+              ? "capturenow_button_disabled"
+              : "capturenow_button"
+          }`}
+        >
+          Capture Now
+        </Button>{" "}
+      </div>
+    );
+  };
+
   const topDetails = () => {
     return (
       <div className="topDetails_main_container">
@@ -192,7 +231,12 @@ function HomePage() {
           </p>
         </div>
         {videoComponent()}
-        {imageBoxDetails()}
+        <div style={{ margin: "30px 0px" }}>
+          {imageBoxDetails()}
+          {getOrLine()}
+          {getCaptureNowButton()}
+        </div>
+
         {response && (
           <Modal
             open={open}
