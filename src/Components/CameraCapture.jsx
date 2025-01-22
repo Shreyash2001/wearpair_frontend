@@ -1,11 +1,13 @@
 import React, { useRef, useState } from "react";
 import ClothingSuggestion from "./ClothingSuggestion";
+import { Button } from "@mui/material";
 
 const CameraCapture = () => {
   const [mediaStream, setMediaStream] = useState(null);
   const [capturedImage, setCapturedImage] = useState(null);
   const [response, setResponse] = useState(null);
   const [userCameraSelection, setUserCameraSelection] = useState("user");
+  const [loading, setLoading] = useState(false);
 
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -60,6 +62,7 @@ const CameraCapture = () => {
 
   // Handle image upload
   const uploadImage = async () => {
+    setLoading(true);
     if (capturedImage) {
       const data = new FormData();
       const blob = await fetch(capturedImage).then((res) => res.blob());
@@ -88,6 +91,7 @@ const CameraCapture = () => {
             const backendData = await backendRes.json();
             setResponse(backendData);
             alert("Image uploaded successfully!");
+            setLoading(false);
           } catch (error) {
             alert(error);
           }
@@ -165,7 +169,9 @@ const CameraCapture = () => {
         <div>
           <h3>Captured Photo:</h3>
           <img src={capturedImage} alt="Captured" style={{ width: "100%" }} />
-          <button onClick={uploadImage}>Upload Photo</button>
+          <Button disabled={loading} onClick={uploadImage} variant="contained">
+            Upload Photo
+          </Button>
           <button onClick={() => setCapturedImage(null)}>Retake Photo</button>
         </div>
       )}

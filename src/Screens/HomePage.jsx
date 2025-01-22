@@ -186,7 +186,7 @@ function HomePage() {
             </Box>
           </Modal>
         )}
-        <CameraCapture />
+        <CameraCapture loading={loading} />
       </div>
     );
   };
