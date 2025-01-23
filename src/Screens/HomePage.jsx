@@ -20,6 +20,10 @@ function HomePage() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [openCameraModal, setOpenCameraModal] = useState(false);
+
+  const handleOpenCameraModal = () => setOpenCameraModal(true);
+  const handleCloseCameraModal = () => setOpenCameraModal(false);
   const togglePlayPause = () => {
     if (isPlaying) {
       videoRef.current.pause();
@@ -195,6 +199,10 @@ function HomePage() {
     );
   };
 
+  const handleCaptureNowClick = () => {
+    handleOpenCameraModal();
+  };
+
   const getCaptureNowButton = () => {
     return (
       <div style={{ padding: "15px 20px" }}>
@@ -204,6 +212,7 @@ function HomePage() {
           </p>
         )}
         <Button
+          onClick={handleCaptureNowClick}
           disabled={selectedImage !== null ? true : false}
           className={`${
             selectedImage !== null
@@ -251,7 +260,11 @@ function HomePage() {
             </Box>
           </Modal>
         )}
-        <CameraCapture loading={loading} />
+
+        <CameraCapture
+          open={openCameraModal}
+          onClose={handleCloseCameraModal}
+        />
       </div>
     );
   };

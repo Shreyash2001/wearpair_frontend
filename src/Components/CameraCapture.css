@@ -1,0 +1,6 @@
+.camera-capture-button {
+    background: linear-gradient(45deg, #ff7eb3, #ff758c, #ff6a57, #ff8e57);
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
