@@ -23,7 +23,12 @@ function HomePage() {
   const [openCameraModal, setOpenCameraModal] = useState(false);
 
   const handleOpenCameraModal = () => setOpenCameraModal(true);
-  const handleCloseCameraModal = () => setOpenCameraModal(false);
+  const handleCloseCameraModal = (reason) => {
+    console.log(reason);
+    if (reason !== "escapeKeyDown" && reason !== "backdropClick") {
+      setOpenCameraModal(false);
+    }
+  };
   const togglePlayPause = () => {
     if (isPlaying) {
       videoRef.current.pause();
@@ -263,7 +268,7 @@ function HomePage() {
 
         <CameraCapture
           open={openCameraModal}
-          onClose={handleCloseCameraModal}
+          onClose={(reason) => handleCloseCameraModal(reason)}
         />
       </div>
     );
