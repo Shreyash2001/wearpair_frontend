@@ -2,20 +2,25 @@ import React, { useEffect, useRef, useState } from "react";
 import "./HomePage.css";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import PauseCircleIcon from "@mui/icons-material/PauseCircle";
-import CameraCapture from "../Components/CameraCapture";
-import ImageUploadBox from "../Components/ImageUploadBox";
+import CameraCapture from "../components/CameraCapture";
+import ImageUploadBox from "../components/ImageUploadBox";
 import { Button } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import { outfitDetailsAction } from "../actions/outfitActions";
+import { useDispatch, useSelector } from "react-redux";
 
 function HomePage() {
+  const dispatch = useDispatch();
+  const { loading, success, outfitDetails } = useSelector(
+    (state) => state.outfitDetails
+  );
   const videoRef = useRef(null);
   const timeoutRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [showControls, setShowControls] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [response, setResponse] = useState(null);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [reset, setReset] = useState(false);
   const [open, setOpen] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
@@ -102,45 +107,8 @@ function HomePage() {
   };
 
   const handleMatchNowClick = async () => {
-    setLoading(true);
     if (selectedImage) {
-      const data = new FormData();
-      const blob = await fetch(selectedImage).then((res) => res.blob());
-      data.append("file", blob);
-      data.append("upload_preset", "insta_clone");
-      data.append("cloud_name", "cqn");
-      fetch("https://api.cloudinary.com/v1_1/cqn/image/upload", {
-        method: "POST",
-        body: data,
-      })
-        .then((res) => res.json())
-        .then(async (uploadedData) => {
-          console.log("Uploaded Image URL:", uploadedData.url);
-          try {
-            const backendRes = await fetch(
-              "https://wearpair-backend.vercel.app/api/image-details/generate",
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ url: uploadedData.url }),
-              }
-            );
-
-            const backendData = await backendRes.json();
-            setResponse(backendData);
-            handleOpen();
-            setLoading(false);
-            alert("Image uploaded successfully!");
-          } catch (error) {
-            alert(error);
-          }
-        })
-        .catch((err) => {
-          console.error("Upload error:", err);
-          alert("Failed to upload image.");
-        });
+      dispatch(outfitDetailsAction(selectedImage));
     }
   };
 
@@ -154,6 +122,14 @@ function HomePage() {
       setReset(false);
     }
   }, [selectedImage]);
+
+  useEffect(() => {
+    if (success) {
+      handleOpen();
+    }
+  }, [success]);
+
+  console.log(open);
 
   const imageBoxDetails = () => {
     return (
@@ -261,20 +237,18 @@ function HomePage() {
           )}
         </div>
 
-        {response && (
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box sx={style}>
-              <p style={{ color: "#222" }}>
-                {JSON.stringify(response, null, 2)}
-              </p>
-            </Box>
-          </Modal>
-        )}
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <p style={{ color: "#222" }}>
+              {JSON.stringify(outfitDetails?.outfit, null, 2)}
+            </p>
+          </Box>
+        </Modal>
 
         <CameraCapture
           open={openCameraModal}

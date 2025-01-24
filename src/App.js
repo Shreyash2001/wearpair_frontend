@@ -1,12 +1,13 @@
 import "./App.css";
-import HomePage from "./Screens/HomePage";
+
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
-import OutfitDetailsPage from "./Screens/OutfitDetailsPage";
+import OutfitDetailsPage from "./screens/OutfitDetailsPage";
+import HomePage from "./screens/HomePage";
 
 function App() {
   return (

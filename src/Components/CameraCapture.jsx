@@ -5,6 +5,8 @@ import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import CloseIcon from "@mui/icons-material/Close";
 import FlipCameraAndroidIcon from "@mui/icons-material/FlipCameraAndroid";
 import { stepsToUnlockCamera } from "../utils/utility";
+import { useDispatch } from "react-redux";
+import { outfitDetailsAction } from "../actions/outfitActions";
 
 function CameraCapture({ open, onClose }) {
   const cameraCaptureModalStyle = {
@@ -20,6 +22,7 @@ function CameraCapture({ open, onClose }) {
     padding: 1,
     borderRadius: 5,
   };
+  const dispatch = useDispatch();
   const [mediaStream, setMediaStream] = useState(null);
   const [capturedImage, setCapturedImage] = useState(null);
   const [response, setResponse] = useState(null);
@@ -81,42 +84,7 @@ function CameraCapture({ open, onClose }) {
   const uploadImage = async () => {
     setLoading(true);
     if (capturedImage) {
-      const data = new FormData();
-      const blob = await fetch(capturedImage).then((res) => res.blob());
-      data.append("file", blob);
-      data.append("upload_preset", "insta_clone");
-      data.append("cloud_name", "cqn");
-      fetch("https://api.cloudinary.com/v1_1/cqn/image/upload", {
-        method: "POST",
-        body: data,
-      })
-        .then((res) => res.json())
-        .then(async (uploadedData) => {
-          console.log("Uploaded Image URL:", uploadedData.url);
-          try {
-            const backendRes = await fetch(
-              "https://wearpair-backend.vercel.app/api/image-details/generate",
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ url: uploadedData.url }),
-              }
-            );
-
-            const backendData = await backendRes.json();
-            setResponse(backendData);
-            alert("Image uploaded successfully!");
-            setLoading(false);
-          } catch (error) {
-            alert(error);
-          }
-        })
-        .catch((err) => {
-          console.error("Upload error:", err);
-          alert("Failed to upload image.");
-        });
+      dispatch(outfitDetailsAction(capturedImage));
     }
   };
 
