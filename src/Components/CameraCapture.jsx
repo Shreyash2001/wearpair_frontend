@@ -196,7 +196,11 @@ function CameraCapture({ open, onClose }) {
       >
         <div>
           <video
-            style={{ width: "100%", height: "75vh", objectFit: "cover" }}
+            style={{
+              width: "100%",
+              height: "75vh",
+              objectFit: "cover",
+            }}
             ref={videoRef}
             autoPlay
             muted
@@ -209,6 +213,7 @@ function CameraCapture({ open, onClose }) {
             alignItems: "center",
             width: "100%",
             marginTop: "10px",
+            bottom: "50px",
           }}
         >
           <IconButton onClick={onClose}>

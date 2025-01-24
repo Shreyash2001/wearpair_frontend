@@ -41,6 +41,8 @@
     width: 100%;
     display: block;
     object-fit: cover;
+    pointer-events: none;
+
 }
 
 .play-pause-btn {

@@ -18,13 +18,13 @@ function HomePage() {
   const [loading, setLoading] = useState(false);
   const [reset, setReset] = useState(false);
   const [open, setOpen] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [openCameraModal, setOpenCameraModal] = useState(false);
 
   const handleOpenCameraModal = () => setOpenCameraModal(true);
   const handleCloseCameraModal = (reason) => {
-    console.log(reason);
     if (reason !== "escapeKeyDown" && reason !== "backdropClick") {
       setOpenCameraModal(false);
     }
@@ -60,6 +60,11 @@ function HomePage() {
   };
 
   useEffect(() => {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    setIsIOS(/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream);
+  }, []);
+
+  useEffect(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
@@ -81,6 +86,7 @@ function HomePage() {
           loop
           muted
           className="styled-video"
+          playsInline
         />
         {showControls && (
           <div className="play-pause-btn" onClick={togglePlayPause}>
@@ -247,8 +253,12 @@ function HomePage() {
         {videoComponent()}
         <div style={{ margin: "30px 0px" }}>
           {imageBoxDetails()}
-          {getOrLine()}
-          {getCaptureNowButton()}
+          {!isIOS && (
+            <>
+              {getOrLine()}
+              {getCaptureNowButton()}
+            </>
+          )}
         </div>
 
         {response && (
