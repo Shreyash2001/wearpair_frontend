@@ -1,6 +1,7 @@
 import {
   OUTFIT_DETAILS_FAILED,
   OUTFIT_DETAILS_REQUEST,
+  OUTFIT_DETAILS_RESET,
   OUTFIT_DETAILS_SUCCESS,
 } from "../constants/outfitConstants";
 import axios from "axios";
@@ -17,12 +18,12 @@ export const outfitDetailsAction = (capturedImage) => async (dispatch) => {
       sessionStorage.getItem("outfitDetails") === undefined
     ) {
       const { data } = await axios.post(
-        "http://localhost:5000/api/image-details/generate",
+        "https://wearpair-backend.vercel.app/api/image-details/generate",
         {
           url: uploadedImageUrl,
         }
       );
-      sessionStorage.setItem("outfitDetails", JSON.stringify(data));
+      // sessionStorage.setItem("outfitDetails", JSON.stringify(data));
       savedData = JSON.stringify(data);
     }
     dispatch({
@@ -38,4 +39,8 @@ export const outfitDetailsAction = (capturedImage) => async (dispatch) => {
           : error.message,
     });
   }
+};
+
+export const resetOutfitDetails = () => (dispatch) => {
+  dispatch({ type: OUTFIT_DETAILS_RESET });
 };

@@ -34,11 +34,6 @@ function a11yProps(index) {
 }
 
 export default function BasicTabs({ tabsData = {}, tabsColors = {} }) {
-  Object.keys(tabsColors)?.map((tab, index) => {
-    // console.log(tabsColors[tab]);
-    return;
-  });
-  //   console.log(Object.keys(tabsColors));
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -62,18 +57,19 @@ export default function BasicTabs({ tabsData = {}, tabsColors = {} }) {
         <CustomTabPanel value={value} index={index}>
           <div>
             {tabsData[tab]}
-            {tabsColors[tab]?.split(",")?.map((color) => {
-              console.log(color?.trim());
-              return (
-                <div
-                  style={{
-                    width: "100px",
-                    height: "100px",
-                    backgroundColor: `${color.trim()}`,
-                  }}
-                />
-              );
-            })}
+            <div style={{ display: "flex", margin: "10px 0px" }}>
+              {tabsColors[tab]?.split(",")?.map((color) => {
+                return (
+                  <div
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      backgroundColor: `${color.trim()}`,
+                    }}
+                  />
+                );
+              })}
+            </div>
           </div>
         </CustomTabPanel>
       ))}

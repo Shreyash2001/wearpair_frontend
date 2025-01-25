@@ -1,6 +1,7 @@
 import {
   OUTFIT_DETAILS_FAILED,
   OUTFIT_DETAILS_REQUEST,
+  OUTFIT_DETAILS_RESET,
   OUTFIT_DETAILS_SUCCESS,
 } from "../constants/outfitConstants";
 
@@ -22,6 +23,11 @@ export const outfitDetailsReducer = (state = {}, action) => {
         loading: false,
         success: false,
         error: action.payload,
+      };
+    case OUTFIT_DETAILS_RESET:
+      return {
+        loading: false,
+        success: false,
       };
 
     default:

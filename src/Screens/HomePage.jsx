@@ -9,10 +9,12 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { outfitDetailsAction } from "../actions/outfitActions";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loading, success, outfitDetails } = useSelector(
+  const { loading, success, outfit } = useSelector(
     (state) => state.outfitDetails
   );
   const videoRef = useRef(null);
@@ -125,7 +127,8 @@ function HomePage() {
 
   useEffect(() => {
     if (success) {
-      handleOpen();
+      // handleOpen();
+      navigate(`/outfit/${outfit?.id}`);
     }
   }, [success]);
 
@@ -237,7 +240,7 @@ function HomePage() {
           )}
         </div>
 
-        <Modal
+        {/* <Modal
           open={open}
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
@@ -248,7 +251,7 @@ function HomePage() {
               {JSON.stringify(outfitDetails?.outfit, null, 2)}
             </p>
           </Box>
-        </Modal>
+        </Modal> */}
 
         <CameraCapture
           open={openCameraModal}
