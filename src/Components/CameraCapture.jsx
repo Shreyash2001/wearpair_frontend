@@ -277,57 +277,6 @@ function CameraCapture({ open, onClose }) {
         />
       </Box>
     </Modal>
-    // <div>
-    //   <h2>Capture Photo</h2>
-    //   {
-    //     <div style={{ margin: "10px 0px" }}>
-    //       <button onClick={handleCameraToggle}>Toggle Camera</button>
-    //     </div>
-    //   }
-    //   {!capturedImage && <button onClick={startWebCam}>Open Camera</button>}
-
-    //   {
-    //     <div>
-    //       <video
-    //         style={{ width: "300px", height: "300px" }}
-    //         ref={videoRef}
-    //         autoPlay
-    //         muted
-    //       />
-    //     </div>
-    //   }
-    //   <button onClick={capturePhoto}>Capture Photo</button>
-    //   <button onClick={stopWebCam}>Close Camera</button>
-
-    //   {capturedImage && (
-    //     <div>
-    //       <h3>Captured Photo:</h3>
-    //       <img src={capturedImage} alt="Captured" style={{ width: "100%" }} />
-    //       <Button disabled={loading} onClick={uploadImage} variant="contained">
-    //         Upload Photo
-    //       </Button>
-    //       <button onClick={() => setCapturedImage(null)}>Retake Photo</button>
-    //     </div>
-    //   )}
-
-    //   {/* Hidden canvas for capturing photo */}
-    //   <canvas
-    //     ref={canvasRef}
-    //     style={{ display: "none" }}
-    //     width={300}
-    //     height={480}
-    //   />
-    //   {response && (
-    //     <div style={{ marginTop: "20px" }}>
-    //       {/* <ClothingSuggestion data={response} /> */}
-    //       <h3>Response:</h3>
-    //       <p>{JSON.stringify(response, null, 2)}</p>
-    //     </div>
-    //   )}
-    //   <div>
-    //     <button onClick={reset}>Reset</button>
-    //   </div>
-    // </div>
   );
 }
 

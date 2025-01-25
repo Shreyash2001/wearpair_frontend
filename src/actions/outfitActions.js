@@ -11,19 +11,24 @@ export const outfitDetailsAction = (capturedImage) => async (dispatch) => {
     dispatch({ type: OUTFIT_DETAILS_REQUEST });
 
     const uploadedImageUrl = await cloudinaryUpload(capturedImage);
-    if (uploadedImageUrl) {
+    let savedData = sessionStorage.getItem("outfitDetails") || {};
+    if (
+      (uploadedImageUrl && sessionStorage.getItem("outfitDetails") === null) ||
+      sessionStorage.getItem("outfitDetails") === undefined
+    ) {
       const { data } = await axios.post(
-        "https://wearpair-backend.vercel.app/api/image-details/generate",
+        "http://localhost:5000/api/image-details/generate",
         {
           url: uploadedImageUrl,
         }
       );
-
-      dispatch({
-        type: OUTFIT_DETAILS_SUCCESS,
-        payload: data,
-      });
+      sessionStorage.setItem("outfitDetails", JSON.stringify(data));
+      savedData = JSON.stringify(data);
     }
+    dispatch({
+      type: OUTFIT_DETAILS_SUCCESS,
+      payload: JSON.parse(savedData),
+    });
   } catch (error) {
     dispatch({
       type: OUTFIT_DETAILS_FAILED,

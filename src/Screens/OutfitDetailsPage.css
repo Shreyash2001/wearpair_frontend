@@ -1,0 +1,14 @@
+.outfitDetails_top_container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px;
+}
+
+.outfitDetails_imageContainer {
+    width: 250px;
+    height: 250px;
+    border: 2px solid #ff8f8f;
+    border-radius: 12px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
