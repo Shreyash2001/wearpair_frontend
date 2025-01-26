@@ -33,7 +33,7 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs({ tabsData = {}, tabsColors = {} }) {
+export default function BasicTabs({ tabsData = {} }) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -48,27 +48,54 @@ export default function BasicTabs({ tabsData = {}, tabsColors = {} }) {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          {Object.keys(tabsData)?.map((tab, index) => (
-            <Tab label={tab} {...a11yProps(index)} />
-          ))}
+          {Object.keys(tabsData)?.map(
+            (tab, index) =>
+              (tabsData[tab]?.description?.length ||
+                tabsData[tab]?.hex_codes?.length) && (
+                <Tab
+                  key={tab}
+                  label={
+                    tab.charAt(0).toUpperCase() + tab.slice(1).toLowerCase()
+                  }
+                  {...a11yProps(index)}
+                  sx={{
+                    textTransform: "none", // Remove the default uppercase transformation
+                  }}
+                />
+              )
+          )}
         </Tabs>
       </Box>
+      {/* Tabs Content */}
       {Object.keys(tabsData)?.map((tab, index) => (
-        <CustomTabPanel value={value} index={index}>
+        <CustomTabPanel value={value} index={index} key={tab}>
           <div>
-            {tabsData[tab]}
-            <div style={{ display: "flex", margin: "10px 0px" }}>
-              {tabsColors[tab]?.split(",")?.map((color) => {
-                return (
+            {/* Description */}
+            {tabsData[tab]?.description ? (
+              <p style={{ color: "#222" }}>{tabsData[tab].description}</p>
+            ) : (
+              <p>No description available.</p>
+            )}
+
+            {/* Hex Colors */}
+            <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+              {tabsData[tab]?.hex_codes?.length > 0 ? (
+                tabsData[tab].hex_codes.map((color) => (
                   <div
+                    key={color}
                     style={{
-                      width: "100px",
-                      height: "100px",
-                      backgroundColor: `${color.trim()}`,
+                      width: "40px",
+                      height: "40px",
+                      backgroundColor: color.trim(),
+                      borderRadius: "50%",
+                      border: "1px solid #ccc",
                     }}
-                  />
-                );
-              })}
+                    title={color} // Tooltip for color code
+                  ></div>
+                ))
+              ) : (
+                <p>No colors available.</p>
+              )}
             </div>
           </div>
         </CustomTabPanel>

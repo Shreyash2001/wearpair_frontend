@@ -12,10 +12,10 @@ import BasicTabs from "../components/CustomTabPanel";
 function OutfitDetailsPage() {
   const dispatch = useDispatch();
   const { outfit } = useSelector((state) => state.outfitDetails);
-  console.log(outfit);
 
   useEffect(() => {
     dispatch(resetOutfitDetails());
+    // dispatch(outfitDetailsAction());
   }, []);
   const showCapturedOutfitSection = () => {
     return (
@@ -43,7 +43,10 @@ function OutfitDetailsPage() {
           </div>
           <div style={{ margin: "10px 0px" }}>
             <h4 style={{ color: "#fff" }}>Description:</h4>
-            <ReadMoreLess text={outfit?.primary_color} maxLength={60} />
+            <ReadMoreLess
+              text={outfit?.primary_color_details?.description}
+              maxLength={60}
+            />
           </div>
         </div>
       </div>
@@ -51,19 +54,12 @@ function OutfitDetailsPage() {
   };
 
   const showRelevantOutfitSection = () => {
-    const data = {
-      tab_details: outfit?.complementary_colors,
-      tab_colors: outfit?.hex_codes,
-    };
     return (
       <div>
         <Accordion defaultExpanded>
           <AccordionSummary>Suggested Outfits:</AccordionSummary>
           <AccordionDetails>
-            <BasicTabs
-              tabsData={outfit?.complementary_colors}
-              tabsColors={outfit?.hex_codes}
-            />
+            <BasicTabs tabsData={outfit?.complementary_colors} />
           </AccordionDetails>
         </Accordion>
       </div>

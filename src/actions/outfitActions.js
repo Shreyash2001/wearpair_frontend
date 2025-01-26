@@ -17,6 +17,7 @@ export const outfitDetailsAction = (capturedImage) => async (dispatch) => {
       (uploadedImageUrl && sessionStorage.getItem("outfitDetails") === null) ||
       sessionStorage.getItem("outfitDetails") === undefined
     ) {
+      // "https://wearpair-backend.vercel.app/api/image-details/generate"
       const { data } = await axios.post(
         "https://wearpair-backend.vercel.app/api/image-details/generate",
         {

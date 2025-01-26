@@ -28,6 +28,7 @@ export const outfitDetailsReducer = (state = {}, action) => {
       return {
         loading: false,
         success: false,
+        outfit: state?.outfit,
       };
 
     default:
