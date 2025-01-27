@@ -34,6 +34,7 @@ function a11yProps(index) {
 }
 
 export default function BasicTabs({ tabsData = {} }) {
+  console.log(tabsData);
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -59,7 +60,8 @@ export default function BasicTabs({ tabsData = {} }) {
                   }
                   {...a11yProps(index)}
                   sx={{
-                    textTransform: "none", // Remove the default uppercase transformation
+                    textTransform: "none",
+                    color: "#fff",
                   }}
                 />
               )
@@ -72,7 +74,7 @@ export default function BasicTabs({ tabsData = {} }) {
           <div>
             {/* Description */}
             {tabsData[tab]?.description ? (
-              <p style={{ color: "#222" }}>{tabsData[tab].description}</p>
+              <p>{tabsData[tab].description}</p>
             ) : (
               <p>No description available.</p>
             )}

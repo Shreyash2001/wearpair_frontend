@@ -10,13 +10,15 @@ import Box from "@mui/material/Box";
 import { outfitDetailsAction } from "../actions/outfitActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useError } from "../components/Errorpopup";
 
 function HomePage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loading, success, outfit } = useSelector(
+  const { loading, success, outfit, error } = useSelector(
     (state) => state.outfitDetails
   );
+  const { showError } = useError();
   const videoRef = useRef(null);
   const timeoutRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(true);
@@ -54,17 +56,13 @@ function HomePage() {
     timeoutRef.current = setTimeout(() => setShowControls(false), 3000);
   };
 
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 300,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-  };
+  useEffect(() => {
+    if (error) {
+      showError(
+        "Our Modal is currently Busy. Please Wait for few Minutes and Try Again."
+      );
+    }
+  }, [error]);
 
   useEffect(() => {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -239,19 +237,6 @@ function HomePage() {
             </>
           )}
         </div>
-
-        {/* <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <p style={{ color: "#222" }}>
-              {JSON.stringify(outfitDetails?.outfit, null, 2)}
-            </p>
-          </Box>
-        </Modal> */}
 
         <CameraCapture
           open={openCameraModal}
