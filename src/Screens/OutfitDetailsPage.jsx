@@ -40,7 +40,10 @@ function OutfitDetailsPage() {
         <div>
           <div>
             <h4 style={{ margin: "5px 0px" }}>Clothing Item:</h4>
-            <h3>{outfit?.clothing_item}</h3>
+            <h3>
+              {outfit?.clothing_item?.charAt(0).toUpperCase() +
+                outfit?.clothing_item?.slice(1).toLowerCase()}
+            </h3>
           </div>
           <div style={{ margin: "10px 0px" }}>
             <h4 style={{ color: "#fff" }}>Description:</h4>
@@ -64,7 +67,7 @@ function OutfitDetailsPage() {
           <AccordionSummary
             expandIcon={<ExpandCircleDownIcon style={{ color: "#fff" }} />}
           >
-            Suggested Outfits:
+            <h3>Suggested Outfits:</h3>
           </AccordionSummary>
           <AccordionDetails>
             <BasicTabs tabsData={outfit?.complementary_colors} />

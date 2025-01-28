@@ -20,7 +20,7 @@ const ReadMoreLess = ({ text = "", maxLength }) => {
     background: "none",
     border: "none",
     color: "#007bff",
-    fontSize: "14px",
+    fontSize: "12px",
     fontWeight: "bold",
     cursor: "pointer",
     marginLeft: "5px",
@@ -36,20 +36,19 @@ const ReadMoreLess = ({ text = "", maxLength }) => {
     <div style={containerStyle}>
       <p>
         {expanded ? text : `${text.slice(0, maxLength)}...`}
-        <button
-          onClick={toggleReadMore}
-          style={buttonStyle}
-          onMouseOver={(e) => (e.target.style.color = buttonHoverStyle.color)}
-          onMouseOut={(e) => (e.target.style.color = buttonStyle.color)}
-        >
-          {expanded ? "Read Less" : "Read More"}
-        </button>
+        {text?.length > maxLength && (
+          <button
+            onClick={toggleReadMore}
+            style={buttonStyle}
+            onMouseOver={(e) => (e.target.style.color = buttonHoverStyle.color)}
+            onMouseOut={(e) => (e.target.style.color = buttonStyle.color)}
+          >
+            {expanded ? "Read Less" : "Read More"}
+          </button>
+        )}
       </p>
     </div>
   );
 };
 
 export default ReadMoreLess;
-
-// Usage Example:
-// <ReadMoreLess text="This is an example of a long text that can be toggled with read more and read less buttons." maxLength={50} />
