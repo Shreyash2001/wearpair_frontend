@@ -8,7 +8,7 @@ import { stepsToUnlockCamera } from "../utils/utility";
 import { useDispatch } from "react-redux";
 import { outfitDetailsAction } from "../actions/outfitActions";
 
-function CameraCapture({ open, onClose }) {
+function CameraCapture({ open, onClose, loading }) {
   const cameraCaptureModalStyle = {
     position: "absolute",
     top: "50%",
@@ -28,7 +28,6 @@ function CameraCapture({ open, onClose }) {
   const [response, setResponse] = useState(null);
   const [cameraPermission, setCameraPermission] = useState(0); // 0 - Not asked, 1 - Allowed, 2 - Denied
   const [userCameraSelection, setUserCameraSelection] = useState("environment");
-  const [loading, setLoading] = useState(false);
 
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -82,7 +81,6 @@ function CameraCapture({ open, onClose }) {
 
   // Handle image upload
   const uploadImage = async () => {
-    setLoading(true);
     if (capturedImage) {
       dispatch(outfitDetailsAction(capturedImage));
     }
@@ -126,6 +124,11 @@ function CameraCapture({ open, onClose }) {
       <div style={{ padding: "10px" }}>
         <div className="captured-image-wrapper">
           <img src={capturedImage} alt="Captured" className="captured-image" />
+          {loading && (
+            <div className="analysing_preview">
+              <p>Analysing...</p>
+            </div>
+          )}
         </div>
         <div style={{ marginTop: "20px" }}>
           <Button

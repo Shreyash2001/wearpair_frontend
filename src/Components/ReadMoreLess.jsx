@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const ReadMoreLess = ({ text = "", maxLength }) => {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(text?.length < maxLength);
 
   const toggleReadMore = () => {
     setExpanded(!expanded);

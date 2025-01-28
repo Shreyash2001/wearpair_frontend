@@ -26,10 +26,8 @@ function HomePage() {
   const [selectedImage, setSelectedImage] = useState(null);
   // const [loading, setLoading] = useState(false);
   const [reset, setReset] = useState(false);
-  const [open, setOpen] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+
   const [openCameraModal, setOpenCameraModal] = useState(false);
 
   const handleOpenCameraModal = () => setOpenCameraModal(true);
@@ -129,8 +127,6 @@ function HomePage() {
       navigate(`/outfit/${outfit?.id}`);
     }
   }, [success]);
-
-  console.log(open);
 
   const imageBoxDetails = () => {
     return (
@@ -241,6 +237,7 @@ function HomePage() {
         <CameraCapture
           open={openCameraModal}
           onClose={(reason) => handleCloseCameraModal(reason)}
+          loading={loading}
         />
       </div>
     );
