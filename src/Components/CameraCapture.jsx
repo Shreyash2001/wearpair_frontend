@@ -111,6 +111,11 @@ function CameraCapture({ open, onClose, loading }) {
     }
   }, []);
 
+  const handleClose = () => {
+    onClose(); // Call the onClose function passed as a prop
+    stopWebCam(); // Call your additional function
+  };
+
   useEffect(() => {
     if (open) {
       startWebCam();
@@ -212,7 +217,7 @@ function CameraCapture({ open, onClose, loading }) {
             bottom: "50px",
           }}
         >
-          <IconButton onClick={onClose}>
+          <IconButton onClick={handleClose}>
             <CloseIcon style={{ color: "#fff", fontSize: "35px" }} />
           </IconButton>
           <IconButton onClick={capturePhoto} className="camera-capture-button">
