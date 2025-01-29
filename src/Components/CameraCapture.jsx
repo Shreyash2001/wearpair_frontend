@@ -119,14 +119,39 @@ function CameraCapture({ open, onClose, loading }) {
     }
   }, [open]);
 
+  const [borderAngle, setBorderAngle] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBorderAngle((prev) => (prev + 1) % 360);
+    }, 10);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const showCapturedImageSection = () => {
     return (
       <div style={{ padding: "10px" }}>
-        <div className="captured-image-wrapper">
+        <div
+          style={{
+            border: loading ? "3px solid transparent" : "2px solid #ff8f8f",
+            borderRadius: loading ? "22px" : "none",
+            background: loading
+              ? `conic-gradient(from ${borderAngle}deg,rgb(248, 137, 137),rgb(248, 153, 153) 5%,rgb(247, 152, 152) 60%,rgb(238, 93, 93) 95%) padding-box,
+                   conic-gradient(from ${borderAngle}deg, transparent 25%,rgb(245, 79, 79),rgb(224, 75, 75) 99%, transparent) border-box,
+                   conic-gradient(from ${borderAngle}deg,rgb(243, 135, 150),rgba(238, 139, 139, 0.99) 5%,rgb(247, 135, 135) 60%,rgb(247, 120, 120) 95%) border-box`
+              : "none",
+            transition: loading ? "border-angle 0.1s linear" : "none",
+            position: "relative",
+          }}
+          className="captured-image-wrapper"
+        >
           <img src={capturedImage} alt="Captured" className="captured-image" />
           {loading && (
             <div className="analysing_preview">
-              <p>Analysing...</p>
+              <p style={{ textAlign: "center", fontSize: "14px" }}>
+                Finding Match For Your Outfit...
+              </p>
             </div>
           )}
         </div>

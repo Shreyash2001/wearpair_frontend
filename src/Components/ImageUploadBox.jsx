@@ -48,44 +48,70 @@ const ImageUploadBox = ({ setSelectedImage, loading, onReset }) => {
     }
   }, [onReset]);
 
+  const [borderAngle, setBorderAngle] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBorderAngle((prev) => (prev + 1) % 360);
+    }, 10);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div
-      onClick={handleBoxClick}
-      className="upload-box"
-      onDrop={handleDrop}
-      onDragOver={handleDragOver}
+      style={{
+        border: loading ? "3px solid transparent" : "none",
+        borderRadius: loading ? "22px" : "none",
+        background: loading
+          ? `conic-gradient(from ${borderAngle}deg,rgb(248, 137, 137),rgb(248, 153, 153) 5%,rgb(247, 152, 152) 60%,rgb(238, 93, 93) 95%) padding-box,
+                 conic-gradient(from ${borderAngle}deg, transparent 25%,rgb(245, 79, 79),rgb(224, 75, 75) 99%, transparent) border-box,
+                 conic-gradient(from ${borderAngle}deg,rgb(243, 135, 150),rgba(238, 139, 139, 0.99) 5%,rgb(247, 135, 135) 60%,rgb(247, 120, 120) 95%) border-box`
+          : "none",
+        transition: loading ? "border-angle 0.1s linear" : "none",
+      }}
     >
-      {imagePreview ? (
-        <img src={imagePreview} alt="Preview" className="image-preview" />
-      ) : (
-        <div
-          style={{
-            textAlign: "center",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <CollectionsIcon
-            style={{ color: "#fff", fontSize: "50px", marginBottom: "10px" }}
-          />
-          <label className="upload-label">
-            Drag & drop an image here <br /> or <span>click to select</span>
-          </label>
-        </div>
-      )}
-      <input
-        id="fileInput"
-        type="file"
-        accept="image/*"
-        onChange={handleFileSelect}
-        style={{ display: "none" }}
-      />
-      {loading && (
-        <div className="analysing_preview">
-          <p>Analysing...</p>
-        </div>
-      )}
+      <div
+        onClick={handleBoxClick}
+        className="upload-box"
+        style={{ border: `${loading ? "none" : "3px dashed #ff8f8f"}` }}
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+      >
+        {imagePreview ? (
+          <img src={imagePreview} alt="Preview" className="image-preview" />
+        ) : (
+          <div
+            style={{
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <CollectionsIcon
+              style={{ color: "#fff", fontSize: "50px", marginBottom: "10px" }}
+            />
+            <label className="upload-label">
+              Drag & drop an image here <br /> or <span>click to select</span>
+            </label>
+          </div>
+        )}
+        <input
+          id="fileInput"
+          type="file"
+          accept="image/*"
+          onChange={handleFileSelect}
+          style={{ display: "none" }}
+        />
+        {loading && (
+          <div className="analysing_preview">
+            <p style={{ textAlign: "center", fontSize: "14px" }}>
+              Finding Match For Your Outfit...
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

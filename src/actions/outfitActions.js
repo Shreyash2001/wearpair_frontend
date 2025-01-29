@@ -24,13 +24,16 @@ export const outfitDetailsAction = (capturedImage) => async (dispatch) => {
           url: uploadedImageUrl,
         }
       );
-      // sessionStorage.setItem("outfitDetails", JSON.stringify(data));
+      sessionStorage.setItem("outfitDetails", JSON.stringify(data));
       savedData = JSON.stringify(data);
     }
     dispatch({
       type: OUTFIT_DETAILS_SUCCESS,
       payload: JSON.parse(savedData),
     });
+    setTimeout(() => {
+      dispatch({ type: OUTFIT_DETAILS_RESET });
+    }, 2000);
   } catch (error) {
     dispatch({
       type: OUTFIT_DETAILS_FAILED,
@@ -44,4 +47,8 @@ export const outfitDetailsAction = (capturedImage) => async (dispatch) => {
 
 export const resetOutfitDetails = () => (dispatch) => {
   dispatch({ type: OUTFIT_DETAILS_RESET });
+};
+
+export const clearSessionStorage = () => {
+  sessionStorage.removeItem("outfitDetails");
 };

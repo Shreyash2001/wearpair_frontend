@@ -7,7 +7,10 @@ import ImageUploadBox from "../components/ImageUploadBox";
 import { Button } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import { outfitDetailsAction } from "../actions/outfitActions";
+import {
+  clearSessionStorage,
+  outfitDetailsAction,
+} from "../actions/outfitActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useError } from "../components/Errorpopup";
@@ -65,6 +68,7 @@ function HomePage() {
   useEffect(() => {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
     setIsIOS(/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream);
+    clearSessionStorage();
   }, []);
 
   useEffect(() => {

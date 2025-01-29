@@ -15,8 +15,7 @@ function OutfitDetailsPage() {
   const { outfit } = useSelector((state) => state.outfitDetails);
 
   useEffect(() => {
-    dispatch(resetOutfitDetails());
-    // dispatch(outfitDetailsAction());
+    dispatch(outfitDetailsAction());
   }, []);
   const showCapturedOutfitSection = () => {
     return (
