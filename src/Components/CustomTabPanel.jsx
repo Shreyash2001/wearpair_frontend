@@ -34,7 +34,9 @@ function a11yProps(index) {
 
 export default function BasicTabs({ tabsData = {} }) {
   const validTabs = Object.keys(tabsData).filter(
-    (tab) => tabsData[tab]?.description?.trim().length > 0
+    (tab) =>
+      tabsData[tab]?.description?.trim().length > 0 &&
+      tabsData[tab]?.hex_codes?.length > 0
   );
 
   const [value, setValue] = React.useState(0);

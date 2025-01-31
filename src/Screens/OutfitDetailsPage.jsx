@@ -6,6 +6,7 @@ import ReadMoreLess from "../components/ReadMoreLess";
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import BasicTabs from "../components/CustomTabPanel";
 import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
+import Accessories from "../components/Accessories";
 
 function OutfitDetailsPage() {
   const dispatch = useDispatch();
@@ -56,6 +57,16 @@ function OutfitDetailsPage() {
   const showRelevantOutfitSection = () => {
     return (
       <div style={{ padding: "5px 10px" }}>
+        <Accordion sx={{ backgroundColor: "#222", color: "#fff" }}>
+          <AccordionSummary
+            expandIcon={<ExpandCircleDownIcon style={{ color: "#fff" }} />}
+          >
+            <h3>Accessories:</h3>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Accessories accessories={outfit?.accessories} />
+          </AccordionDetails>
+        </Accordion>
         <Accordion
           sx={{ backgroundColor: "#222", color: "#fff" }}
           defaultExpanded
