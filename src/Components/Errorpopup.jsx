@@ -5,7 +5,6 @@ const ErrorContext = createContext();
 
 export const ErrorProvider = ({ children }) => {
   const [error, setError] = useState(null);
-  console.log(error);
   const showError = (message) => setError(message);
   const hideError = () => setError(null);
   const style = {

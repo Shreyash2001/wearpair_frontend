@@ -6,7 +6,6 @@ import Box from "@mui/material/Box";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
@@ -34,6 +33,10 @@ function a11yProps(index) {
 }
 
 export default function BasicTabs({ tabsData = {} }) {
+  const validTabs = Object.keys(tabsData).filter(
+    (tab) => tabsData[tab]?.description?.trim().length > 0
+  );
+
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -42,92 +45,94 @@ export default function BasicTabs({ tabsData = {} }) {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Box
-        sx={{
-          borderBottom: 1,
-          borderColor: "divider",
-          display: "flex",
-          justifyContent: "space-between",
-          width: "100%",
-        }}
-      >
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-          TabIndicatorProps={{
-            style: {
-              background: "linear-gradient(45deg, #ff8f8f, #ff6161)",
-            },
+      {validTabs.length > 0 && (
+        <Box
+          sx={{
+            borderBottom: 1,
+            borderColor: "divider",
+            display: "flex",
+            justifyContent: "space-between",
+            width: "100%",
           }}
-          sx={{ flexGrow: 1 }}
         >
-          {Object.keys(tabsData)?.map(
-            (tab, index) =>
-              (tabsData[tab]?.description?.length ||
-                tabsData[tab]?.hex_codes?.length) && (
-                <Tab
-                  key={tab}
-                  label={
-                    tab.charAt(0).toUpperCase() + tab.slice(1).toLowerCase()
-                  }
-                  {...a11yProps(index)}
-                  sx={{
-                    flex: 1,
-                    textTransform: "none",
-                    color: "#fff", // Default white color
-                    "&.Mui-selected": {
-                      color: "#ff8f8f", // Ensure the selected text color stays as defined
-                    },
-                    fontWeight: value === index ? "bold" : "normal",
-                  }}
-                />
-              )
-          )}
-        </Tabs>
-      </Box>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+            TabIndicatorProps={{
+              style: {
+                background: "linear-gradient(45deg, #ff8f8f, #ff6161)",
+              },
+            }}
+            sx={{ flexGrow: 1 }}
+          >
+            {validTabs.map((tab, index) => (
+              <Tab
+                key={tab}
+                label={tab.charAt(0).toUpperCase() + tab.slice(1).toLowerCase()}
+                {...a11yProps(index)}
+                sx={{
+                  flex: 1,
+                  textTransform: "none",
+                  color: "#fff",
+                  "&.Mui-selected": {
+                    color: "#ff8f8f",
+                  },
+                  fontWeight: value === index ? "bold" : "normal",
+                }}
+              />
+            ))}
+          </Tabs>
+        </Box>
+      )}
       {/* Tabs Content */}
-      {Object.keys(tabsData)?.map((tab, index) => (
+      {validTabs.map((tab, index) => (
         <CustomTabPanel value={value} index={index} key={tab}>
           <div>
-            {/* Description */}
-            {tabsData[tab]?.description ? (
-              <p
-                style={{
-                  margin: "10px 0px",
-                  fontSize: "18px",
-                  lineHeight: "26px",
-                  fontWeight: "400",
-                  fontStyle: "italic",
-                }}
-              >
-                {tabsData[tab].description}
-              </p>
-            ) : (
-              <p>No description available.</p>
-            )}
-
-            {/* Hex Colors */}
-            <div style={{ marginTop: "20px" }}>
-              <h3>Colors:</h3>
-              <div style={{ display: "flex", gap: "10px", margin: "10px 0px" }}>
-                {tabsData[tab]?.hex_codes?.length > 0 ? (
-                  tabsData[tab].hex_codes.map((color) => (
+            <p
+              style={{
+                margin: "10px 0px",
+                fontSize: "14px",
+                lineHeight: "20px",
+                fontWeight: "400",
+                fontStyle: "italic",
+              }}
+            >
+              {tabsData[tab].description}
+            </p>
+            <div style={{ marginTop: "20px", display: "flex" }}>
+              <div style={{ margin: "0px 20px" }}>
+                <h4>Outfits:</h4>
+                {tabsData[tab]?.recommended_types?.map((recommend, i) => (
+                  <ul key={i} style={{ margin: "10px 0px", padding: "0px" }}>
+                    <li>{recommend}</li>
+                  </ul>
+                ))}
+              </div>
+              <div>
+                <h4>Colors:</h4>
+                <div
+                  style={{
+                    display: "flex",
+                    margin: "10px 0px",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  {tabsData[tab]?.hex_codes?.map((color) => (
                     <div
                       key={color}
                       style={{
-                        width: "60px",
-                        height: "60px",
+                        width: "30px",
+                        height: "30px",
                         backgroundColor: color.trim(),
                         borderRadius: "12px",
                         border: "1px solid #ccc",
+                        margin: "10px 5px",
                       }}
-                      title={color} // Tooltip for color code
+                      title={color}
                     ></div>
-                  ))
-                ) : (
-                  <p>No colors available.</p>
-                )}
+                  ))}
+                </div>
               </div>
             </div>
           </div>

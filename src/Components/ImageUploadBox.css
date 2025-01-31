@@ -12,6 +12,7 @@
     position: relative;
     overflow: hidden;
     animation: spin 2.5s infinite linear;
+    position: relative;
 }
 
 
@@ -33,7 +34,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 20px;
+    position: absolute;
 }
 
 .analysing_preview {

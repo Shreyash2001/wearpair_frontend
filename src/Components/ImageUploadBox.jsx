@@ -87,6 +87,10 @@ const ImageUploadBox = ({ setSelectedImage, loading, onReset }) => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              backgroundColor: "black",
+              width: "100%",
+              height: "300px",
+              justifyContent: "center",
             }}
           >
             <CollectionsIcon
