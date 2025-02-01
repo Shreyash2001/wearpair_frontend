@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
+import { generateShades } from "../utils/utility";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -40,9 +41,44 @@ export default function BasicTabs({ tabsData = {} }) {
   );
 
   const [value, setValue] = React.useState(0);
+  const [colors, setColors] = React.useState([]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  React.useEffect(() => {
+    validTabs?.map((tab) => {
+      const totalColors = tabsData[tab]?.hex_codes
+        ?.map((color) => generateShades(color))
+        .flat();
+
+      setColors(totalColors);
+    });
+  }, [tabsData]);
+
+  const palleteSection = () => {
+    return (
+      <div>
+        <p>Color Palette:</p>
+        <div style={{ display: "flex", margin: "10px 0px" }}>
+          {colors?.map((color, index) => {
+            return (
+              <div
+                key={index}
+                style={{
+                  backgroundColor: color,
+                  width: "28px",
+                  height: "100px",
+                  borderRadius: "5px",
+                  marginRight: "-10px",
+                }}
+              ></div>
+            );
+          })}
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -103,40 +139,32 @@ export default function BasicTabs({ tabsData = {} }) {
               {tabsData[tab].description}
             </p>
             <div style={{ marginTop: "20px", display: "flex" }}>
-              <div style={{ margin: "0px 20px" }}>
-                <h4>Outfits:</h4>
-                {tabsData[tab]?.recommended_types?.map((recommend, i) => (
-                  <ul key={i} style={{ margin: "10px 0px", padding: "0px" }}>
-                    <li>{recommend}</li>
-                  </ul>
-                ))}
-              </div>
               <div>
-                <h4>Colors:</h4>
+                <h4>Outfits:</h4>
                 <div
                   style={{
                     display: "flex",
-                    margin: "10px 0px",
                     flexWrap: "wrap",
+                    margin: "10px 0px",
+                    width: "100%",
                   }}
                 >
-                  {tabsData[tab]?.hex_codes?.map((color) => (
+                  {tabsData[tab]?.recommended_types?.map((recommend, i) => (
                     <div
-                      key={color}
                       style={{
-                        width: "30px",
-                        height: "30px",
-                        backgroundColor: color.trim(),
-                        borderRadius: "12px",
-                        border: "1px solid #ccc",
-                        margin: "10px 5px",
+                        border: "1px solid lightgrey",
+                        padding: "10px 20px",
+                        borderRadius: "22px",
+                        margin: "5px 10px 5px 0px",
                       }}
-                      title={color}
-                    ></div>
+                    >
+                      <h4 key={index}>{recommend}</h4>
+                    </div>
                   ))}
                 </div>
               </div>
             </div>
+            {palleteSection()}
           </div>
         </CustomTabPanel>
       ))}

@@ -47,3 +47,34 @@ export const cloudinaryUpload = async (capturedImage) => {
     throw new Error("Failed to upload image.");
   }
 };
+
+export const generateShades = (hex, numShades = 5) => {
+  const lightenDarkenColor = (col, amt) => {
+    let usePound = false;
+    if (col[0] === "#") {
+      col = col.slice(1);
+      usePound = true;
+    }
+
+    let num = parseInt(col, 16);
+    let r = (num >> 16) + amt;
+    let g = ((num >> 8) & 0x00ff) + amt;
+    let b = (num & 0x0000ff) + amt;
+
+    r = Math.min(255, Math.max(0, r));
+    g = Math.min(255, Math.max(0, g));
+    b = Math.min(255, Math.max(0, b));
+
+    return (
+      (usePound ? "#" : "") +
+      ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
+    );
+  };
+
+  let shades = [];
+  for (let i = 2; i >= -2; i--) {
+    shades.push(lightenDarkenColor(hex, i * 30)); // Adjust brightness by ±30
+  }
+
+  return shades;
+};

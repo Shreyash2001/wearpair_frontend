@@ -35,8 +35,8 @@ function OutfitDetailsPage() {
           </div>
         </div>
         <div>
-          <div>
-            <h4 style={{ margin: "5px 0px" }}>Clothing Item:</h4>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <h3 style={{ margin: "5px 10px 5px 0px" }}>Clothing Item:</h3>
             <h3>
               {outfit?.clothing_item?.charAt(0).toUpperCase() +
                 outfit?.clothing_item?.slice(1).toLowerCase()}

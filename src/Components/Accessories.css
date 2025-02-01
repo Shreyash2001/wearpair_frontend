@@ -1,0 +1,39 @@
+.accessory_filter_container {
+    display: flex;
+    align-items: center;
+    overflow-x: scroll;
+}
+
+.accessory_filter_container::-webkit-scrollbar {
+    display: none;
+}
+
+.accessory_filters {
+    border: 1px solid lightgrey;
+    padding: 10px 20px;
+    border-radius: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.accessory_filters_selected {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    background: linear-gradient(45deg, #ff7eb3, #ff758c, #ff6a57, #ff8e57) !important;
+    font-weight: 600;
+}
+
+.color_pallete {
+    display: flex;
+    align-items: center;
+    /* overflow-x: scroll; */
+    width: 100%;
+    margin: 10px 0px;
+}
