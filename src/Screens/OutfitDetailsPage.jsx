@@ -57,7 +57,9 @@ function OutfitDetailsPage() {
   const showRelevantOutfitSection = () => {
     return (
       <div style={{ padding: "5px 10px" }}>
-        <Accordion sx={{ backgroundColor: "#222", color: "#fff" }}>
+        <Accordion
+          sx={{ backgroundColor: "#222", color: "#fff", margin: "10px 0px" }}
+        >
           <AccordionSummary
             expandIcon={<ExpandCircleDownIcon style={{ color: "#fff" }} />}
           >

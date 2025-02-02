@@ -48,14 +48,12 @@ export default function BasicTabs({ tabsData = {} }) {
   };
 
   React.useEffect(() => {
-    validTabs?.map((tab) => {
-      const totalColors = tabsData[tab]?.hex_codes
-        ?.map((color) => generateShades(color))
-        .flat();
+    const totalColors = tabsData[validTabs[value]]?.hex_codes
+      ?.map((color) => generateShades(color))
+      .flat();
 
-      setColors(totalColors);
-    });
-  }, [tabsData]);
+    setColors(totalColors);
+  }, [tabsData, value]);
 
   const palleteSection = () => {
     return (
@@ -68,7 +66,7 @@ export default function BasicTabs({ tabsData = {} }) {
                 key={index}
                 style={{
                   backgroundColor: color,
-                  width: "28px",
+                  width: "25px",
                   height: "100px",
                   borderRadius: "5px",
                   marginRight: "-10px",
@@ -152,13 +150,18 @@ export default function BasicTabs({ tabsData = {} }) {
                   {tabsData[tab]?.recommended_types?.map((recommend, i) => (
                     <div
                       style={{
-                        border: "1px solid lightgrey",
-                        padding: "10px 20px",
+                        padding: "8px 10px",
                         borderRadius: "22px",
                         margin: "5px 10px 5px 0px",
+                        background: "#f94c4c",
                       }}
                     >
-                      <h4 key={index}>{recommend}</h4>
+                      <p
+                        style={{ fontSize: "13px", fontWeight: "600" }}
+                        key={index}
+                      >
+                        {recommend}
+                      </p>
                     </div>
                   ))}
                 </div>

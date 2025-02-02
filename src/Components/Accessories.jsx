@@ -43,7 +43,7 @@ function Accessories({ accessories = {} }) {
                 key={index}
                 style={{
                   backgroundColor: color,
-                  width: "28px",
+                  width: "25px",
                   height: "100px",
                   borderRadius: "4px",
                   marginRight: "-10px",
