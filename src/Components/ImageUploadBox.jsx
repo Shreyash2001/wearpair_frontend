@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./ImageUploadBox.css";
 import CollectionsIcon from "@mui/icons-material/Collections";
+import Loader from "./Loading";
 
 const ImageUploadBox = ({ setSelectedImage, loading, onReset }) => {
   // console.log(onReset);
@@ -110,9 +111,10 @@ const ImageUploadBox = ({ setSelectedImage, loading, onReset }) => {
         />
         {loading && (
           <div className="analysing_preview">
-            <p style={{ textAlign: "center", fontSize: "14px" }}>
+            {/* <p style={{ textAlign: "center", fontSize: "14px" }}>
               Finding Match For Your Outfit...
-            </p>
+            </p> */}
+            <Loader />
           </div>
         )}
       </div>

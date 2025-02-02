@@ -7,6 +7,7 @@ import FlipCameraAndroidIcon from "@mui/icons-material/FlipCameraAndroid";
 import { stepsToUnlockCamera } from "../utils/utility";
 import { useDispatch } from "react-redux";
 import { outfitDetailsAction } from "../actions/outfitActions";
+import Loader from "./Loading";
 
 function CameraCapture({ open, onClose, loading }) {
   const cameraCaptureModalStyle = {
@@ -25,7 +26,6 @@ function CameraCapture({ open, onClose, loading }) {
   const dispatch = useDispatch();
   const [mediaStream, setMediaStream] = useState(null);
   const [capturedImage, setCapturedImage] = useState(null);
-  const [response, setResponse] = useState(null);
   const [cameraPermission, setCameraPermission] = useState(0); // 0 - Not asked, 1 - Allowed, 2 - Denied
   const [userCameraSelection, setUserCameraSelection] = useState("environment");
 
@@ -154,9 +154,7 @@ function CameraCapture({ open, onClose, loading }) {
           <img src={capturedImage} alt="Captured" className="captured-image" />
           {loading && (
             <div className="analysing_preview">
-              <p style={{ textAlign: "center", fontSize: "14px" }}>
-                Finding Match For Your Outfit...
-              </p>
+              <Loader />
             </div>
           )}
         </div>
