@@ -170,6 +170,14 @@ function HomePage() {
               </Button>
             </div>
           )}
+          {selectedImage && (
+            <div style={{ margin: "10px 0px" }}>
+              <h4>
+                *We do not save your images. Data is Autodeleted after
+                suggestions
+              </h4>
+            </div>
+          )}
         </div>
       </div>
     );
@@ -246,6 +254,7 @@ function HomePage() {
       </div>
     );
   };
+
   return <div className="homepage_main_container">{topDetails()}</div>;
 }
 

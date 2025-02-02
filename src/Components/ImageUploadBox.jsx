@@ -70,6 +70,7 @@ const ImageUploadBox = ({ setSelectedImage, loading, onReset }) => {
                  conic-gradient(from ${borderAngle}deg,rgb(243, 135, 150),rgba(238, 139, 139, 0.99) 5%,rgb(247, 135, 135) 60%,rgb(247, 120, 120) 95%) border-box`
           : "none",
         transition: loading ? "border-angle 0.1s linear" : "none",
+        margin: "10px 0px",
       }}
     >
       <div
