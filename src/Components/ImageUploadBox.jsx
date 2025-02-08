@@ -112,9 +112,6 @@ const ImageUploadBox = ({ setSelectedImage, loading, onReset }) => {
         />
         {loading && (
           <div className="analysing_preview">
-            {/* <p style={{ textAlign: "center", fontSize: "14px" }}>
-              Finding Match For Your Outfit...
-            </p> */}
             <Loader />
           </div>
         )}

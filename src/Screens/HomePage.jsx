@@ -5,8 +5,6 @@ import PauseCircleIcon from "@mui/icons-material/PauseCircle";
 import CameraCapture from "../components/CameraCapture";
 import ImageUploadBox from "../components/ImageUploadBox";
 import { Button } from "@mui/material";
-import Modal from "@mui/material/Modal";
-import Box from "@mui/material/Box";
 import {
   clearSessionStorage,
   outfitDetailsAction,
@@ -14,6 +12,42 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useError } from "../components/Errorpopup";
+import { motion, AnimatePresence } from "framer-motion";
+
+const occasionWords = ["Date Wear", "Party Wear", "Trip Wear"];
+
+const ShowOccasionTitle = () => {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prevIndex) => (prevIndex + 1) % occasionWords.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div style={{ margin: "0px 30px" }}>
+      <h1 style={{ textAlign: "center", fontSize: "36px" }}>
+        Plan Your <span className="gradient-text">Next </span>
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={occasionWords[index]}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.6 }}
+            className="gradient-text"
+            style={{ marginLeft: "20px" }}
+          >
+            {occasionWords[index]}
+          </motion.span>
+        </AnimatePresence>
+      </h1>
+    </div>
+  );
+};
 
 function HomePage() {
   const navigate = useNavigate();
@@ -255,7 +289,20 @@ function HomePage() {
     );
   };
 
-  return <div className="homepage_main_container">{topDetails()}</div>;
+  const getOccassionSection = () => {
+    return (
+      <div>
+        <ShowOccasionTitle />
+      </div>
+    );
+  };
+
+  return (
+    <div className="homepage_main_container">
+      {topDetails()}
+      {getOccassionSection()}
+    </div>
+  );
 }
 
 export default HomePage;
