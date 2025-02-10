@@ -160,7 +160,7 @@ export default function BasicTabs({ tabsData = {} }) {
                         style={{ fontSize: "13px", fontWeight: "600" }}
                         key={index}
                       >
-                        {recommend}
+                        {recommend?.title}
                       </p>
                     </div>
                   ))}

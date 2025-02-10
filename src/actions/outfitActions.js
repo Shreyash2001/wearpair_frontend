@@ -19,7 +19,7 @@ export const outfitDetailsAction = (capturedImage) => async (dispatch) => {
     ) {
       // "https://wearpair-backend.vercel.app/api/image-details/generate"
       const { data } = await axios.post(
-        "http://localhost:5000/api/image-details/extract-details",
+        "https://wearpair-backend.vercel.app/api/image-details/generate",
         {
           url: uploadedImageUrl,
         }
