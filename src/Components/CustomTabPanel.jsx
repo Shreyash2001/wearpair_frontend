@@ -124,7 +124,7 @@ export default function BasicTabs({ tabsData = {} }) {
       {/* Tabs Content */}
       {validTabs.map((tab, index) => (
         <CustomTabPanel value={value} index={index} key={tab}>
-          <div>
+          <div key={index}>
             <p
               style={{
                 margin: "10px 0px",
@@ -155,10 +155,11 @@ export default function BasicTabs({ tabsData = {} }) {
                         margin: "5px 10px 5px 0px",
                         background: "#f94c4c",
                       }}
+                      key={i}
                     >
                       <p
                         style={{ fontSize: "13px", fontWeight: "600" }}
-                        key={index}
+                        key={i}
                       >
                         {recommend?.title}
                       </p>
@@ -166,6 +167,24 @@ export default function BasicTabs({ tabsData = {} }) {
                   ))}
                 </div>
               </div>
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap" }}>
+              {tabsData[tab]?.recommended_types?.map((recommend, i) => (
+                <div key={i}>
+                  {recommend?.image?.map((item, index) => (
+                    <img
+                      style={{
+                        width: "80px",
+                        height: "80px",
+                        objectFit: "cover",
+                        margin: "0px 10px",
+                      }}
+                      src={item}
+                      alt=""
+                    />
+                  ))}
+                </div>
+              ))}
             </div>
             {palleteSection()}
           </div>

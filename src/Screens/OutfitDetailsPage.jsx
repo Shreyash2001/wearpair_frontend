@@ -15,6 +15,7 @@ function OutfitDetailsPage() {
   useEffect(() => {
     dispatch(outfitDetailsAction());
   }, []);
+
   const showCapturedOutfitSection = () => {
     return (
       <div className="outfitDetails_top_container">
