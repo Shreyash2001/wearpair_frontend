@@ -34,21 +34,21 @@ const ClothingSuggestion = ({ data }) => {
         <h3>Complementary Suggestions:</h3>
         <div>
           <h4>Shirts:</h4>
-          <p>{data?.complementary_colors?.shirts}</p>
+          <p>{data?.complementary?.shirts}</p>
           <div style={{ display: "flex", flexWrap: "wrap" }}>
             {renderColorCircles(data?.hex_codes.shirts)}
           </div>
         </div>
         <div>
           <h4>Pants:</h4>
-          <p>{data?.complementary_colors.pants}</p>
+          <p>{data?.complementary.pants}</p>
           <div style={{ display: "flex", flexWrap: "wrap" }}>
             {renderColorCircles(data?.hex_codes.pants)}
           </div>
         </div>
         <div>
           <h4>Jackets:</h4>
-          <p>{data?.complementary_colors.jackets}</p>
+          <p>{data?.complementary.jackets}</p>
           <div style={{ display: "flex", flexWrap: "wrap" }}>
             {renderColorCircles(data?.hex_codes.jackets)}
           </div>

@@ -80,7 +80,7 @@ function OutfitDetailsPage() {
             <h3>Suggested Outfits:</h3>
           </AccordionSummary>
           <AccordionDetails>
-            <BasicTabs tabsData={outfit?.complementary_colors} />
+            <BasicTabs tabsData={outfit?.complementary} />
           </AccordionDetails>
         </Accordion>
       </div>

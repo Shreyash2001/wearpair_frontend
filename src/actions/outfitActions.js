@@ -8,7 +8,7 @@ import {
   OUTFIT_FILTER_IMAGES_SUCCESS,
 } from "../constants/outfitConstants";
 import axios from "axios";
-import { cloudinaryUpload } from "../utils/utility";
+import { BASE_URI, cloudinaryUpload } from "../utils/utility";
 
 export const outfitDetailsAction = (capturedImage) => async (dispatch) => {
   try {
@@ -22,7 +22,7 @@ export const outfitDetailsAction = (capturedImage) => async (dispatch) => {
     ) {
       // "https://wearpair-backend.vercel.app/api/image-details/generate"
       const { data } = await axios.post(
-        "https://wearpair-backend.vercel.app/api/image-details/generate",
+        `${BASE_URI}/api/image-details/generate`,
         {
           url: uploadedImageUrl,
         }
@@ -38,25 +38,29 @@ export const outfitDetailsAction = (capturedImage) => async (dispatch) => {
       dispatch({ type: OUTFIT_DETAILS_RESET });
     }, 2000);
     savedData = JSON.parse(savedData);
-    if (savedData?.complementary_colors) {
-      Object.keys(savedData.complementary_colors).forEach((category, index) => {
-        const categoryData = savedData.complementary_colors[category];
-        if (index === 0) {
-          categoryData.recommended_types.forEach((type, index) => {
-            if (index === 0) {
-              dispatch(
-                outfitFilterImagesAction(
-                  category, // topwear, bottomwear, jackets, etc.
-                  savedData.gender || "Unisex",
-                  savedData.primary_color_details?.hex_codes[0].replace(
-                    "#",
-                    ""
-                  ) || "000000", // Default to black if no color
-                  type.title
-                )
-              );
-            }
-          });
+    if (savedData?.complementary) {
+      let onceFlag = true;
+      Object.keys(savedData?.complementary).forEach((category, index) => {
+        const categoryData = savedData.complementary[category];
+        console.log(categoryData?.recommended_types);
+        if (categoryData?.recommended_types?.length > 0 && onceFlag) {
+          if (
+            categoryData?.recommended_types.some(
+              (type) => type.image?.length < 2
+            )
+          ) {
+            const requests = {
+              category,
+              gender: savedData.gender || "Unisex",
+              color: categoryData?.hex_codes[0]?.replace("#", "") || "000000",
+              titles: [],
+            };
+            categoryData.recommended_types.forEach((type) => {
+              requests.titles.push(type.title);
+            });
+            dispatch(outfitFilterImagesAction(requests));
+            onceFlag = false;
+          }
         }
       });
     }
@@ -80,45 +84,52 @@ export const clearSessionStorage = () => {
 };
 
 export const outfitFilterImagesAction =
-  (category, gender, color, title) => async (dispatch, getState) => {
+  (requests) => async (dispatch, getState) => {
     try {
       dispatch({ type: OUTFIT_FILTER_IMAGES_REQUEST });
+
       const { data } = await axios.get(
-        `https://wearpair-backend.vercel.app/api/image-details/filter/images?category=${category}&gender=${gender}&color=${color}&title=${title}`
+        `${BASE_URI}/api/image-details/filter/images`,
+        {
+          params: {
+            category: requests.category,
+            gender: requests.gender,
+            color: requests.color,
+            titles: requests.titles,
+          },
+        }
       );
-      dispatch({ type: OUTFIT_FILTER_IMAGES_SUCCESS, payload: data });
+
       const { outfitDetails } = getState();
       let updatedOutfitDetails = { ...outfitDetails.outfit };
-      const updateRecommendedTypesWithImages = (recommendedTypes) => {
-        return recommendedTypes.map((type) => {
-          const matchingImage =
-            data?.title?.toLowerCase() === type.title.toLowerCase();
-          return {
-            ...type,
-            image: matchingImage ? data?.images : [], // Add image URL if found
-          };
-        });
-      };
-      if (updatedOutfitDetails.complementary_colors) {
-        Object.keys(updatedOutfitDetails.complementary_colors).forEach(
-          (key) => {
-            if (
-              updatedOutfitDetails.complementary_colors[key].recommended_types
-            ) {
-              updatedOutfitDetails.complementary_colors[key].recommended_types =
-                updateRecommendedTypesWithImages(
-                  updatedOutfitDetails.complementary_colors[key]
-                    .recommended_types
-                );
-            }
-          }
-        );
+      console.log(data);
+      if (
+        updatedOutfitDetails.complementary &&
+        updatedOutfitDetails.complementary[data.category] &&
+        updatedOutfitDetails.complementary[data.category].recommended_types
+      ) {
+        updatedOutfitDetails.complementary[data?.category].recommended_types =
+          updatedOutfitDetails.complementary[
+            data?.category
+          ]?.recommended_types.map((type) => {
+            const matchingData = data.results.find((data) => {
+              return data.title.toLowerCase() === type.title.toLowerCase();
+            });
+            return {
+              ...type,
+              image: matchingData ? matchingData.images : [],
+            };
+          });
       }
 
       dispatch({
         type: OUTFIT_FILTER_IMAGES_SUCCESS,
         payload: updatedOutfitDetails,
       });
+      sessionStorage.setItem(
+        "outfitDetails",
+        JSON.stringify(updatedOutfitDetails)
+      );
     } catch (error) {
       dispatch({
         type: OUTFIT_FILTER_IMAGES_FAILED,
