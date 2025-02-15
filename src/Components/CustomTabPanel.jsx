@@ -4,6 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { generateShades } from "../utils/utility";
+import Drawer from "@mui/material/Drawer";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -77,6 +78,52 @@ export default function BasicTabs({ tabsData = {} }) {
         </div>
       </div>
     );
+  };
+
+  const [recommendedImages, setRecommendedImages] = React.useState([]);
+
+  const imageSection = (recommend) => {
+    return (
+      <div
+        onClick={toggleDrawer(true, recommend?.image)}
+        style={{
+          position: "relative",
+          borderRadius: "5px",
+          width: "120px",
+          height: "200px",
+          overflow: "hidden",
+          margin: "5px 10px",
+        }}
+      >
+        <img
+          src={recommend?.image[0]}
+          alt=""
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: "0px",
+            background:
+              "linear-gradient(45deg, #ff7eb3, #ff758c, #ff6a57, #ff8e57)",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            textAlign: "center",
+          }}
+        >
+          <h5 style={{ margin: "5px 10px" }}>More {recommend?.title}</h5>
+        </div>
+      </div>
+    );
+  };
+
+  const [open, setOpen] = React.useState(false);
+
+  const toggleDrawer = (newOpen, images) => () => {
+    setOpen(newOpen);
+    setRecommendedImages(images);
+    console.log(images);
   };
 
   return (
@@ -168,28 +215,43 @@ export default function BasicTabs({ tabsData = {} }) {
                 </div>
               </div>
             </div>
-            <div style={{ display: "flex", flexWrap: "wrap" }}>
+
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+              }}
+            >
               {tabsData[tab]?.recommended_types?.map((recommend, i) => (
-                <div key={i}>
-                  {recommend?.image?.map((item, index) => (
-                    <img
-                      style={{
-                        width: "80px",
-                        height: "80px",
-                        objectFit: "cover",
-                        margin: "0px 10px",
-                      }}
-                      src={item}
-                      alt=""
-                    />
-                  ))}
-                </div>
+                <div key={i}>{imageSection(recommend)}</div>
               ))}
             </div>
             {palleteSection()}
           </div>
         </CustomTabPanel>
       ))}
+      <Drawer anchor="bottom" open={open} onClose={toggleDrawer(false)}>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+          }}
+        >
+          {recommendedImages?.map((item, index) => (
+            <img
+              style={{
+                width: "90px",
+                height: "120px",
+                objectFit: "cover",
+                margin: "0px 10px",
+              }}
+              src={item}
+              alt=""
+            />
+          ))}
+        </div>
+      </Drawer>
     </Box>
   );
 }

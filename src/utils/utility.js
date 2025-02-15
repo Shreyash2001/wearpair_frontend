@@ -81,4 +81,4 @@ export const generateShades = (hex, numShades = 5) => {
 };
 
 // https://wearpair-backend.vercel.app
-export const BASE_URI = "https://wearpair-backend.vercel.app";
+export const BASE_URI = "http://localhost:5000";
