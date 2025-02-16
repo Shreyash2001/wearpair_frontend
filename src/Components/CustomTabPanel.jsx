@@ -235,16 +235,19 @@ export default function BasicTabs({ tabsData = {} }) {
         <div
           style={{
             display: "flex",
-            flexWrap: "wrap",
+            padding: "30px 10px",
+            background: "#222",
+            overflow: "scroll",
           }}
         >
           {recommendedImages?.map((item, index) => (
             <img
               style={{
-                width: "90px",
-                height: "120px",
+                width: "150px",
+                height: "250px",
                 objectFit: "cover",
                 margin: "0px 10px",
+                borderRadius: "12px",
               }}
               src={item}
               alt=""
