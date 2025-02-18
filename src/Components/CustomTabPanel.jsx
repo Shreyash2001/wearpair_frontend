@@ -5,6 +5,8 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { generateShades } from "../utils/utility";
 import Drawer from "@mui/material/Drawer";
+import CloseIcon from "@mui/icons-material/Close";
+import { IconButton } from "@mui/material";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -85,7 +87,7 @@ export default function BasicTabs({ tabsData = {} }) {
   const imageSection = (recommend) => {
     return (
       <div
-        onClick={toggleDrawer(true, recommend?.image)}
+        onClick={toggleDrawer(true, recommend)}
         style={{
           position: "relative",
           borderRadius: "5px",
@@ -232,27 +234,42 @@ export default function BasicTabs({ tabsData = {} }) {
         </CustomTabPanel>
       ))}
       <Drawer anchor="bottom" open={open} onClose={toggleDrawer(false)}>
-        <div
-          style={{
-            display: "flex",
-            padding: "30px 10px",
-            background: "#222",
-            overflow: "scroll",
-          }}
-        >
-          {recommendedImages?.map((item, index) => (
-            <img
-              style={{
-                width: "150px",
-                height: "250px",
-                objectFit: "cover",
-                margin: "0px 10px",
-                borderRadius: "12px",
-              }}
-              src={item}
-              alt=""
-            />
-          ))}
+        <div style={{ background: "#222", padding: "10px 10px" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              margin: "10px 0px",
+            }}
+          >
+            <h4>View all {recommendedImages?.title}</h4>
+            <IconButton onClick={toggleDrawer(false)}>
+              <CloseIcon style={{ color: "#fff", fontSize: "25px" }} />
+            </IconButton>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              overflow: "scroll",
+              marginTop: "20px",
+            }}
+          >
+            {recommendedImages?.image?.map((item, index) => (
+              <img
+                key={index}
+                style={{
+                  width: "150px",
+                  height: "250px",
+                  objectFit: "cover",
+                  marginRight: "30px",
+                  borderRadius: "12px",
+                }}
+                src={item}
+                alt=""
+              />
+            ))}
+          </div>
         </div>
       </Drawer>
     </Box>
