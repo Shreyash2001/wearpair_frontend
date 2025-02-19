@@ -49,7 +49,7 @@ export const cloudinaryUpload = async (capturedImage) => {
 };
 
 export const generateShades = (hex, numShades = 5) => {
-  console.log(hex);
+  
   const lightenDarkenColor = (col, amt) => {
     let usePound = false;
     if (col[0] === "#") {
@@ -81,4 +81,4 @@ export const generateShades = (hex, numShades = 5) => {
 };
 
 // https://wearpair-backend.vercel.app
-export const BASE_URI = "https://wearpair-backend.vercel.app";
+export const BASE_URI = "http://localhost:5000";

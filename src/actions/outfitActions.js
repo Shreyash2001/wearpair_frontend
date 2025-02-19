@@ -42,7 +42,7 @@ export const outfitDetailsAction = (capturedImage) => async (dispatch) => {
       let onceFlag = true;
       Object.keys(savedData?.complementary).forEach((category, index) => {
         const categoryData = savedData.complementary[category];
-        console.log(categoryData?.recommended_types);
+
         if (categoryData?.recommended_types?.length > 0 && onceFlag) {
           if (
             categoryData?.recommended_types.some(
@@ -139,4 +139,31 @@ export const outfitFilterImagesAction =
             : error.message,
       });
     }
+  };
+
+export const outfitFilterForEachTabAction =
+  (savedData, category) => (dispatch) => {
+    Object.keys(savedData).forEach((_, index) => {
+      const categoryData = savedData[category];
+
+      if (categoryData?.recommended_types?.length > 0) {
+        if (
+          categoryData?.recommended_types?.some(
+            (type) => type?.image?.length < 2
+          )
+        ) {
+          const requests = {
+            category,
+            gender: savedData.gender || "Unisex",
+            color: categoryData?.hex_codes[0]?.replace("#", "") || "000000",
+            titles: [],
+          };
+          categoryData.recommended_types.forEach((type) => {
+            requests.titles.push(type.title);
+          });
+          dispatch(outfitFilterImagesAction(requests));
+        }
+      }
+    });
+    return "";
   };

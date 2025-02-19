@@ -7,6 +7,8 @@ import { generateShades } from "../utils/utility";
 import Drawer from "@mui/material/Drawer";
 import CloseIcon from "@mui/icons-material/Close";
 import { IconButton } from "@mui/material";
+import { outfitFilterForEachTabAction } from "../actions/outfitActions";
+import { useDispatch } from "react-redux";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -37,6 +39,7 @@ function a11yProps(index) {
 }
 
 export default function BasicTabs({ tabsData = {} }) {
+  const dispatch = useDispatch();
   const validTabs = Object.keys(tabsData).filter(
     (tab) =>
       tabsData[tab]?.description?.trim().length > 0 &&
@@ -171,68 +174,73 @@ export default function BasicTabs({ tabsData = {} }) {
         </Box>
       )}
       {/* Tabs Content */}
-      {validTabs.map((tab, index) => (
-        <CustomTabPanel value={value} index={index} key={tab}>
-          <div key={index}>
-            <p
-              style={{
-                margin: "10px 0px",
-                fontSize: "14px",
-                lineHeight: "20px",
-                fontWeight: "400",
-                fontStyle: "italic",
-              }}
-            >
-              {tabsData[tab].description}
-            </p>
-            <div style={{ marginTop: "20px", display: "flex" }}>
-              <div>
-                <h4>Outfits:</h4>
-                <div
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    margin: "10px 0px",
-                    width: "100%",
-                  }}
-                >
-                  {tabsData[tab]?.recommended_types?.map((recommend, i) => (
-                    <div
-                      style={{
-                        padding: "8px 10px",
-                        borderRadius: "22px",
-                        margin: "5px 10px 5px 0px",
-                        background: "#f94c4c",
-                      }}
-                      key={i}
-                    >
-                      <p
-                        style={{ fontSize: "13px", fontWeight: "600" }}
+      {validTabs.map((tab, index) => {
+        if (value === index)
+          dispatch(outfitFilterForEachTabAction(tabsData, tab));
+
+        return (
+          <CustomTabPanel value={value} index={index} key={tab}>
+            <div key={index}>
+              <p
+                style={{
+                  margin: "10px 0px",
+                  fontSize: "14px",
+                  lineHeight: "20px",
+                  fontWeight: "400",
+                  fontStyle: "italic",
+                }}
+              >
+                {tabsData[tab].description}
+              </p>
+              <div style={{ marginTop: "20px", display: "flex" }}>
+                <div>
+                  <h4>Outfits:</h4>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      margin: "10px 0px",
+                      width: "100%",
+                    }}
+                  >
+                    {tabsData[tab]?.recommended_types?.map((recommend, i) => (
+                      <div
+                        style={{
+                          padding: "8px 10px",
+                          borderRadius: "22px",
+                          margin: "5px 10px 5px 0px",
+                          background: "#f94c4c",
+                        }}
                         key={i}
                       >
-                        {recommend?.title}
-                      </p>
-                    </div>
-                  ))}
+                        <p
+                          style={{ fontSize: "13px", fontWeight: "600" }}
+                          key={i}
+                        >
+                          {recommend?.title}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                justifyContent: "center",
-              }}
-            >
-              {tabsData[tab]?.recommended_types?.map((recommend, i) => (
-                <div key={i}>{imageSection(recommend)}</div>
-              ))}
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  justifyContent: "center",
+                }}
+              >
+                {tabsData[tab]?.recommended_types?.map((recommend, i) => (
+                  <div key={i}>{imageSection(recommend)}</div>
+                ))}
+              </div>
+              {palleteSection()}
             </div>
-            {palleteSection()}
-          </div>
-        </CustomTabPanel>
-      ))}
+          </CustomTabPanel>
+        );
+      })}
       <Drawer anchor="bottom" open={open} onClose={toggleDrawer(false)}>
         <div style={{ background: "#222", padding: "10px 10px" }}>
           <div
