@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./OutfitDetailsPage.css";
 import { useDispatch, useSelector } from "react-redux";
-import { outfitDetailsAction } from "../actions/outfitActions";
+import { handleOutfitDetailsRefreshAction } from "../actions/outfitActions";
 import ReadMoreLess from "../components/ReadMoreLess";
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import BasicTabs from "../components/CustomTabPanel";
@@ -13,7 +13,7 @@ function OutfitDetailsPage() {
   const { outfit } = useSelector((state) => state.outfitDetails);
 
   useEffect(() => {
-    dispatch(outfitDetailsAction());
+    dispatch(handleOutfitDetailsRefreshAction());
   }, []);
 
   const showCapturedOutfitSection = () => {

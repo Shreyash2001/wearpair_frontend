@@ -20,7 +20,6 @@ export const outfitDetailsAction = (capturedImage) => async (dispatch) => {
       (uploadedImageUrl && sessionStorage.getItem("outfitDetails") === null) ||
       sessionStorage.getItem("outfitDetails") === undefined
     ) {
-      // "https://wearpair-backend.vercel.app/api/image-details/generate"
       const { data } = await axios.post(
         `${BASE_URI}/api/image-details/generate`,
         {
@@ -37,33 +36,6 @@ export const outfitDetailsAction = (capturedImage) => async (dispatch) => {
     setTimeout(() => {
       dispatch({ type: OUTFIT_DETAILS_RESET });
     }, 2000);
-    savedData = JSON.parse(savedData);
-    if (savedData?.complementary) {
-      let onceFlag = true;
-      Object.keys(savedData?.complementary).forEach((category, index) => {
-        const categoryData = savedData.complementary[category];
-
-        if (categoryData?.recommended_types?.length > 0 && onceFlag) {
-          if (
-            categoryData?.recommended_types.some(
-              (type) => type.image?.length < 2
-            )
-          ) {
-            const requests = {
-              category,
-              gender: savedData.gender || "Unisex",
-              color: categoryData?.hex_codes[0]?.replace("#", "") || "000000",
-              titles: [],
-            };
-            categoryData.recommended_types.forEach((type) => {
-              requests.titles.push(type.title);
-            });
-            dispatch(outfitFilterImagesAction(requests));
-            onceFlag = false;
-          }
-        }
-      });
-    }
   } catch (error) {
     dispatch({
       type: OUTFIT_DETAILS_FAILED,
@@ -71,6 +43,43 @@ export const outfitDetailsAction = (capturedImage) => async (dispatch) => {
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message,
+    });
+  }
+};
+
+export const handleOutfitDetailsRefreshAction = () => async (dispatch) => {
+  let savedData = sessionStorage.getItem("outfitDetails") || {};
+  dispatch({
+    type: OUTFIT_DETAILS_SUCCESS,
+    payload: JSON.parse(savedData),
+  });
+  setTimeout(() => {
+    dispatch({ type: OUTFIT_DETAILS_RESET });
+  }, 2000);
+  savedData = JSON.parse(savedData);
+  if (savedData?.complementary) {
+    let onceFlag = true;
+    Object.keys(savedData?.complementary).forEach((category, index) => {
+      const categoryData = savedData.complementary[category];
+
+      if (categoryData?.recommended_types?.length > 0 && onceFlag) {
+        if (
+          categoryData?.recommended_types.some((type) => type.image?.length < 2)
+        ) {
+          const requests = {
+            category,
+            gender: savedData.gender || "Unisex",
+            color: categoryData?.hex_codes[0]?.replace("#", "") || "000000",
+            titles: [],
+          };
+          categoryData.recommended_types.forEach((type) => {
+            requests.titles.push(type.title);
+          });
+          dispatch(outfitFilterImagesAction(requests));
+          console.log("hello from refresh");
+          onceFlag = false;
+        }
+      }
     });
   }
 };
@@ -162,6 +171,7 @@ export const outfitFilterForEachTabAction =
             requests.titles.push(type.title);
           });
           dispatch(outfitFilterImagesAction(requests));
+          console.log("hello from each tab");
         }
       }
     });

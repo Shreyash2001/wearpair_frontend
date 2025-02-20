@@ -51,6 +51,8 @@ export default function BasicTabs({ tabsData = {} }) {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    console.log(newValue);
+    dispatch(outfitFilterForEachTabAction(tabsData, validTabs[newValue]));
   };
 
   React.useEffect(() => {
@@ -101,7 +103,7 @@ export default function BasicTabs({ tabsData = {} }) {
         }}
       >
         <img
-          src={recommend?.image[0]}
+          src={recommend?.image[0] || null}
           alt=""
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
         />
@@ -128,7 +130,6 @@ export default function BasicTabs({ tabsData = {} }) {
   const toggleDrawer = (newOpen, images) => () => {
     setOpen(newOpen);
     setRecommendedImages(images);
-    console.log(images);
   };
 
   return (
@@ -175,9 +176,6 @@ export default function BasicTabs({ tabsData = {} }) {
       )}
       {/* Tabs Content */}
       {validTabs.map((tab, index) => {
-        if (value === index)
-          dispatch(outfitFilterForEachTabAction(tabsData, tab));
-
         return (
           <CustomTabPanel value={value} index={index} key={tab}>
             <div key={index}>
