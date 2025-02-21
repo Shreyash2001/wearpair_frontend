@@ -49,7 +49,6 @@ export const cloudinaryUpload = async (capturedImage) => {
 };
 
 export const generateShades = (hex, numShades = 5) => {
-  
   const lightenDarkenColor = (col, amt) => {
     let usePound = false;
     if (col[0] === "#") {

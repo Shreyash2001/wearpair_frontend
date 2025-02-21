@@ -8,7 +8,8 @@ import Drawer from "@mui/material/Drawer";
 import CloseIcon from "@mui/icons-material/Close";
 import { IconButton } from "@mui/material";
 import { outfitFilterForEachTabAction } from "../actions/outfitActions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Skeleton from "@mui/material/Skeleton";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -40,6 +41,7 @@ function a11yProps(index) {
 
 export default function BasicTabs({ tabsData = {} }) {
   const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.outfitFilteredImagesStore);
   const validTabs = Object.keys(tabsData).filter(
     (tab) =>
       tabsData[tab]?.description?.trim().length > 0 &&
@@ -96,7 +98,7 @@ export default function BasicTabs({ tabsData = {} }) {
         style={{
           position: "relative",
           borderRadius: "5px",
-          width: "120px",
+          width: "140px",
           height: "200px",
           overflow: "hidden",
           margin: "5px 10px",
@@ -121,6 +123,20 @@ export default function BasicTabs({ tabsData = {} }) {
         >
           <h5 style={{ margin: "5px 10px" }}>More {recommend?.title}</h5>
         </div>
+      </div>
+    );
+  };
+
+  const imageLoader = () => {
+    return (
+      <div
+        style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
+      >
+        {[1, 2, 3, 4].map((item, index) => (
+          <div key={index} style={{ margin: "10px" }}>
+            <Skeleton variant="rounded" width={120} height={200} />
+          </div>
+        ))}{" "}
       </div>
     );
   };
@@ -223,17 +239,21 @@ export default function BasicTabs({ tabsData = {} }) {
                 </div>
               </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  justifyContent: "center",
-                }}
-              >
-                {tabsData[tab]?.recommended_types?.map((recommend, i) => (
-                  <div key={i}>{imageSection(recommend)}</div>
-                ))}
-              </div>
+              {loading ? (
+                imageLoader()
+              ) : (
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    justifyContent: "center",
+                  }}
+                >
+                  {tabsData[tab]?.recommended_types?.map((recommend, i) => (
+                    <div key={i}>{imageSection(recommend)}</div>
+                  ))}
+                </div>
+              )}
               {palleteSection()}
             </div>
           </CustomTabPanel>
