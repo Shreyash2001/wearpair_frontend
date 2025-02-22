@@ -54,7 +54,7 @@ export const outfitFilterImagesReducer = (state = {}, action) => {
       };
     case OUTFIT_FILTER_IMAGES_FAILED:
       return {
-        loading: true,
+        loading: false,
         success: false,
         error: action.payload,
       };

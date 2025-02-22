@@ -172,7 +172,7 @@ export default function BasicTabs({ tabsData = {} }) {
             sx={{ flexGrow: 1 }}
           >
             {validTabs.map((tab, index) => (
-              <Tab
+              <Tab   
                 key={tab}
                 label={tab.charAt(0).toUpperCase() + tab.slice(1).toLowerCase()}
                 {...a11yProps(index)}

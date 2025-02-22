@@ -57,6 +57,7 @@ export const handleOutfitDetailsRefreshAction = () => async (dispatch) => {
     dispatch({ type: OUTFIT_DETAILS_RESET });
   }, 2000);
   savedData = JSON.parse(savedData);
+
   if (savedData?.complementary) {
     let onceFlag = true;
     Object.keys(savedData?.complementary).forEach((category, index) => {
@@ -111,7 +112,7 @@ export const outfitFilterImagesAction =
 
       const { outfitDetails } = getState();
       let updatedOutfitDetails = { ...outfitDetails.outfit };
-      console.log(data);
+
       if (
         updatedOutfitDetails.complementary &&
         updatedOutfitDetails.complementary[data.category] &&
@@ -151,7 +152,9 @@ export const outfitFilterImagesAction =
   };
 
 export const outfitFilterForEachTabAction =
-  (savedData, category) => (dispatch) => {
+  (savedData, category) => (dispatch, getState) => {
+    const { outfitDetails } = getState();
+    const outfitDetailsData = outfitDetails.outfit;
     Object.keys(savedData).forEach((_, index) => {
       const categoryData = savedData[category];
 
@@ -163,7 +166,7 @@ export const outfitFilterForEachTabAction =
         ) {
           const requests = {
             category,
-            gender: savedData.gender || "Unisex",
+            gender: outfitDetailsData?.gender || "Unisex",
             color: categoryData?.hex_codes[0]?.replace("#", "") || "000000",
             titles: [],
           };
