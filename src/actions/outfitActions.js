@@ -77,7 +77,6 @@ export const handleOutfitDetailsRefreshAction = () => async (dispatch) => {
             requests.titles.push(type.title);
           });
           dispatch(outfitFilterImagesAction(requests));
-          console.log("hello from refresh");
           onceFlag = false;
         }
       }

@@ -58,9 +58,7 @@ export default function BasicTabs({ tabsData = {} }) {
   };
 
   React.useEffect(() => {
-    const totalColors = tabsData[validTabs[value]]?.hex_codes
-      ?.map((color) => generateShades(color))
-      .flat();
+    const totalColors = tabsData[validTabs[value]]?.hex_codes;
 
     setColors(totalColors);
   }, [tabsData, value]);
@@ -76,10 +74,10 @@ export default function BasicTabs({ tabsData = {} }) {
                 key={index}
                 style={{
                   backgroundColor: color,
-                  width: "25px",
-                  height: "100px",
-                  borderRadius: "5px",
-                  marginRight: "-10px",
+                  width: "35px",
+                  height: "35px",
+                  marginRight: "10px",
+                  borderRadius: "22px",
                 }}
               ></div>
             );
@@ -172,7 +170,7 @@ export default function BasicTabs({ tabsData = {} }) {
             sx={{ flexGrow: 1 }}
           >
             {validTabs.map((tab, index) => (
-              <Tab   
+              <Tab
                 key={tab}
                 label={tab.charAt(0).toUpperCase() + tab.slice(1).toLowerCase()}
                 {...a11yProps(index)}
@@ -206,6 +204,7 @@ export default function BasicTabs({ tabsData = {} }) {
               >
                 {tabsData[tab].description}
               </p>
+              {palleteSection()}
               <div style={{ marginTop: "20px", display: "flex" }}>
                 <div>
                   <h4>Outfits:</h4>
@@ -254,7 +253,6 @@ export default function BasicTabs({ tabsData = {} }) {
                   ))}
                 </div>
               )}
-              {palleteSection()}
             </div>
           </CustomTabPanel>
         );
