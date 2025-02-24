@@ -4,6 +4,7 @@ import { Modal, Box, Typography, Button } from "@mui/material";
 const ErrorContext = createContext();
 
 export const ErrorProvider = ({ children }) => {
+ 
   const [error, setError] = useState(null);
   const showError = (message) => setError(message);
   const hideError = () => setError(null);

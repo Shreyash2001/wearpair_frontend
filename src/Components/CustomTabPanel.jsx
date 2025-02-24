@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import { generateShades } from "../utils/utility";
 import Drawer from "@mui/material/Drawer";
 import CloseIcon from "@mui/icons-material/Close";
 import { IconButton } from "@mui/material";
@@ -68,8 +67,8 @@ export default function BasicTabs({ tabsData = {} }) {
       <div>
         <p>Color Palette:</p>
         <div style={{ display: "flex", margin: "10px 0px" }}>
-          {colors?.map((color, index) => {
-            return (
+          {colors?.length > 0 ? (
+            colors?.map((color, index) => (
               <div
                 key={index}
                 style={{
@@ -80,8 +79,10 @@ export default function BasicTabs({ tabsData = {} }) {
                   borderRadius: "22px",
                 }}
               ></div>
-            );
-          })}
+            ))
+          ) : (
+            <p>No colors available</p>
+          )}
         </div>
       </div>
     );
@@ -111,15 +112,14 @@ export default function BasicTabs({ tabsData = {} }) {
           style={{
             position: "absolute",
             bottom: "0px",
-            background:
-              "linear-gradient(45deg, #ff7eb3, #ff758c, #ff6a57, #ff8e57)",
+            background: "rgb(249, 76, 76)",
             width: "100%",
             display: "flex",
             justifyContent: "center",
             textAlign: "center",
           }}
         >
-          <h5 style={{ margin: "5px 10px" }}>More {recommend?.title}</h5>
+          <h5 style={{ margin: "5px 5px" }}>View More {recommend?.title}</h5>
         </div>
       </div>
     );
@@ -189,7 +189,7 @@ export default function BasicTabs({ tabsData = {} }) {
         </Box>
       )}
       {/* Tabs Content */}
-      {validTabs.map((tab, index) => {
+      {validTabs?.map((tab, index) => {
         return (
           <CustomTabPanel value={value} index={index} key={tab}>
             <div key={index}>
