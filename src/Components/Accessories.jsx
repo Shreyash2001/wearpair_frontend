@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Accessories.css";
 import { Drawer, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import Pallete from "./Pallete";
 
 function Accessories({ accessories = {} }) {
   const gender = accessories?.gender?.toLowerCase();
@@ -37,29 +38,6 @@ function Accessories({ accessories = {} }) {
     setSelectedFilter(item);
   };
 
-  const palleteSection = () => {
-    return (
-      <div>
-        <p>Color Palette:</p>
-        <div style={{ display: "flex", margin: "10px 0px" }}>
-          {colors?.map((color, index) => {
-            return (
-              <div
-                key={index}
-                style={{
-                  backgroundColor: color,
-                  width: "35px",
-                  height: "35px",
-                  marginRight: "10px",
-                  borderRadius: "22px",
-                }}
-              ></div>
-            );
-          })}
-        </div>
-      </div>
-    );
-  };
   const [open, setOpen] = useState(false);
 
   const toggleDrawer = (newOpen, images) => () => {
@@ -153,7 +131,7 @@ function Accessories({ accessories = {} }) {
               flexWrap: "wrap",
             }}
           >
-            {palleteSection()}
+            <Pallete colors={colors} />
           </div>
           <div
             style={{

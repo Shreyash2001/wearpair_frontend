@@ -9,6 +9,7 @@ import { IconButton } from "@mui/material";
 import { outfitFilterForEachTabAction } from "../actions/outfitActions";
 import { useDispatch, useSelector } from "react-redux";
 import Skeleton from "@mui/material/Skeleton";
+import Pallete from "./Pallete";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -61,32 +62,6 @@ export default function BasicTabs({ tabsData = {} }) {
 
     setColors(totalColors);
   }, [tabsData, value]);
-
-  const palleteSection = () => {
-    return (
-      <div>
-        <p>Color Palette:</p>
-        <div style={{ display: "flex", margin: "10px 0px" }}>
-          {colors?.length > 0 ? (
-            colors?.map((color, index) => (
-              <div
-                key={index}
-                style={{
-                  backgroundColor: color,
-                  width: "35px",
-                  height: "35px",
-                  marginRight: "10px",
-                  borderRadius: "22px",
-                }}
-              ></div>
-            ))
-          ) : (
-            <p>No colors available</p>
-          )}
-        </div>
-      </div>
-    );
-  };
 
   const [recommendedImages, setRecommendedImages] = React.useState([]);
 
@@ -204,11 +179,11 @@ export default function BasicTabs({ tabsData = {} }) {
               >
                 {tabsData[tab].description}
               </p>
-              {palleteSection()}
+              <Pallete colors={colors} />
               <div style={{ marginTop: "20px", display: "flex" }}>
                 <div>
                   <h4>Outfits:</h4>
-                  <div
+                  {/* <div
                     style={{
                       display: "flex",
                       flexWrap: "wrap",
@@ -234,7 +209,7 @@ export default function BasicTabs({ tabsData = {} }) {
                         </p>
                       </div>
                     ))}
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
